@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Kuis PJJ Kelas 8 - Wawasan Nusantara</title>
+    <style>
+        :root {
+            --primary-color: #ff6b6b; /* Merah muda cerah penuh semangat */
+            --secondary-color: #4dadf7; /* Biru langit cerah */
+            --accent-color: #ffd43b; /* Kuning ceria */
+            --bg-color: #e7f5ff; /* Background biru muda segar */
+            --text-color: #2b2b2b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-top: 8px solid var(--primary-color);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+        .petunjuk-box {
+            background-color: #fff9db;
+            border-left: 5px solid var(--accent-color);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .petunjuk-box strong {
+            color: #e67e22;
+        }
+        .pemberitahuan-penting {
+            background-color: #ffec99;
+            border: 2px dashed #f59f00;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #d9480f;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #495057;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-color), #f06595);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(240, 101, 149, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(240, 101, 149, 0.4);
+        }
+        .soal-card {
+            background: #f8f9fa;
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .soal-text {
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        #section-soal {
+            display: none;
+        }
+        .alert {
+            color: #fa5252;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .badge-info {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- HEADER -->
+    <h1>✨ Kuis Online Pendidikan Pancasila ✨</h1>
+    <p class="subtitle">Materi: Wawasan Nusantara (Kelas 8)</p>
+    <hr style="border: 0; border-top: 2px dashed #dee2e6; margin-bottom: 25px;">
+
+    <!-- GERBANG TOKEN & IDENTITAS -->
+    <div id="section-login">
+        <div class="form-group">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" placeholder="Masukkan nama lengkapmu..." required>
+        </div>
+        <div class="form-group">
+            <label for="kelas">Pilih Kelasmu:</label>
+            <select id="kelas">
+                <option value="">-- Pilih Kelas --</option>
+                <option value="8A">8A</option>
+                <option value="8B">8B</option>
+                <option value="8C">8C</option>
+                <option value="8D">8D</option>
+                <option value="8E">8E</option>
+                <option value="8F">8F</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="token">Token Akses Kelas:</label>
+            <input type="text" id="token" placeholder="Masukkan token khusus kelasmu..." required>
+        </div>
+        <button onclick="verifikasiAkses()">Mulai Kerjakan Soal 🚀</button>
+        <div id="error-msg" class="alert"></div>
+    </div>
+
+    <!-- KONTEN SOAL -->
+    <div id="section-soal">
+        <!-- PEMBERITAHUAN UTAMA -->
+        <div class="pemberitahuan-penting">
+            📝 PENTING: JAWABAN WAJIB DITULIS DI BUKU CATATAN ATAU KERTAS SELEMBAR!
+        </div>
+
+        <div class="petunjuk-box">
+            <strong>📋 Petunjuk Pengerjaan:</strong> Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis pada lembar kerja kalian!
+        </div>
+
+        <!-- DAFTAR SOAL -->
+        <div class="soal-card">
+            <span class="badge-info">Soal 1</span>
+            <p class="soal-text">Jelaskan pengertian Wawasan Nusantara secara etimologis (asal kata) dan terminologis (istilah)!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 2</span>
+            <p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara sebagai geopolitik Indonesia? Jelaskan secara singkat!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 3</span>
+            <p class="soal-text">Sebutkan dan jelaskan 3 (tiga) unsur dasar Wawasan Nusantara!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 4</span>
+            <p class="soal-text">Bagaimana bunyi dan makna semboyan "Bhinneka Tunggal Ika" dalam kaitannya dengan Wawasan Nusantara?</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 5</span>
+            <p class="soal-text">Jelaskan 2 (dua) fungsi utama Wawasan Nusantara bagi bangsa Indonesia!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 6</span>
+            <p class="soal-text">Mengapa Wawasan Nusantara sangat penting untuk diterapkan dalam kehidupan bermasyarakat, berbangsa, dan bernegara? Berikan 2 alasan!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 7</span>
+            <p class="soal-text">Sebutkan 3 (tiga) contoh penerapan Wawasan Nusantara di lingkungan sekolah!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 8</span>
+            <p class="soal-text">Apa yang dimaksud dengan asas Wawasan Nusantara "Keadilan"? Berikan contohnya dalam kehidupan sehari-hari!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 9</span>
+            <p class="soal-text">Jelaskan akibat negatif jika suatu bangsa tidak memiliki wawasan nusantara yang kuat! Berikan 2 contoh konkret!</p>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge-info">Soal 10</span>
+            <p class="soal-text">Menurut pendapatmu, bagaimana cara generasi muda (seperti pelajar kelas 8) dapat ikut serta mewujudkan Wawasan Nusantara di era globalisasi saat ini? Berikan minimal 2 cara!</p>
+        </div>
+
+        <button onclick="selesaiMelihat()">Selesai & Tutup Soal</button>
+    </div>
+</div>
+
+<script>
+    // Daftar Token Resmi per Kelas 8
+    const tokenKelas = {
+        '8A': 'WAWASAN8A',
+        '8B': 'WAWASAN8B',
+        '8C': 'WAWASAN8C',
+        '8D': 'WAWASAN8D',
+        '8E': 'WAWASAN8E',
+        '8F': 'WAWASAN8F'
+    };
+
+    function verifikasiAkses() {
+        const nama = document.getElementById('nama').value.trim();
+        const kelas = document.getElementById('kelas').value;
+        const tokenInput = document.getElementById('token').value.trim();
+        const errorMsg = document.getElementById('error-msg');
+
+        if (!nama || !kelas || !tokenInput) {
+            errorMsg.innerText = "⚠️ Yuk, lengkapi nama, kelas, dan tokenmu dulu!";
+            return;
+        }
+
+        // Validasi kecocokan token
+        if (tokenInput.toUpperCase() === tokenKelas[kelas]) {
+            document.getElementById('section-login').style.display = 'none';
+            document.getElementById('section-soal').style.display = 'block';
+            window.scrollTo(0, 0);
+        } else {
+            errorMsg.innerText = "❌ Ups! Token salah atau tidak cocok dengan kelas pilihanmu.";
+        }
+    }
+
+    function selesaiMelihat() {
+        alert("Selamat belajar! Pastikan semua jawaban sudah ditulis rapi di buku catatan atau kertas selembar ya. Semangat!");
+        location.reload(); 
+    }
+</script>
+
+</body>
+</html>
