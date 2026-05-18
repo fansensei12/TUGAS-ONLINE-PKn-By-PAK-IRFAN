@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Kuis PJJ Kelas 8 - Wawasan Nusantara</title>
+    <title>Portal Tugas PJJ Pendidikan Pancasila</title>
     <style>
         :root {
             --primary-color: #ff6b6b; /* Merah muda cerah penuh semangat */
@@ -115,7 +115,7 @@
             font-size: 1.05rem;
             line-height: 1.5;
         }
-        #section-soal {
+        #section-soal-7, #section-soal-8 {
             display: none;
         }
         .alert {
@@ -138,129 +138,154 @@
 <body>
 
 <div class="container">
-    <!-- HEADER -->
-    <h1>✨ Kuis Online Pendidikan Pancasila ✨</h1>
-    <p class="subtitle">Materi: Wawasan Nusantara (Kelas 8)</p>
+    <!-- HEADER PORTAL -->
+    <h1>✨ Portal Kuis Online ✨</h1>
+    <p class="subtitle">Pendidikan Pancasila | Kegiatan PJJ Sekolah</p>
     <hr style="border: 0; border-top: 2px dashed #dee2e6; margin-bottom: 25px;">
 
-    <!-- GERBANG TOKEN & IDENTITAS -->
+    <!-- GERBANG LOGIN UTAMA -->
     <div id="section-login">
         <div class="form-group">
             <label for="nama">Nama Lengkap:</label>
             <input type="text" id="nama" placeholder="Masukkan nama lengkapmu..." required>
         </div>
+        
         <div class="form-group">
-            <label for="kelas">Pilih Kelasmu:</label>
-            <select id="kelas">
-                <option value="">-- Pilih Kelas --</option>
-                <option value="8A">8A</option>
-                <option value="8B">8B</option>
-                <option value="8C">8C</option>
-                <option value="8D">8D</option>
-                <option value="8E">8E</option>
-                <option value="8F">8F</option>
+            <label for="tingkat">Pilih Tingkat Kelas:</label>
+            <select id="tingkat" onchange="updateOpsiKelas()">
+                <option value="">-- Pilih Tingkat --</option>
+                <option value="7">Kelas 7</option>
+                <option value="8">Kelas 8</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label for="kelas">Pilih Kelas Spesifik:</label>
+            <select id="kelas" disabled>
+                <option value="">-- Pilih Tingkat Terlebih Dahulu --</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="token">Token Akses Kelas:</label>
             <input type="text" id="token" placeholder="Masukkan token khusus kelasmu..." required>
         </div>
-        <button onclick="verifikasiAkses()">Mulai Kerjakan Soal 🚀</button>
+        
+        <button onclick="verifikasiAkses()">Buka Lembar Soal 🚀</button>
         <div id="error-msg" class="alert"></div>
     </div>
 
-    <!-- KONTEN SOAL -->
-    <div id="section-soal">
-        <!-- PEMBERITAHUAN UTAMA -->
+    <!-- ==================== KONTEN SOAL KELAS 7 ==================== -->
+    <div id="section-soal-7">
         <div class="pemberitahuan-penting">
             📝 PENTING: JAWABAN WAJIB DITULIS DI BUKU CATATAN ATAU KERTAS SELEMBAR!
         </div>
-
         <div class="petunjuk-box">
-            <strong>📋 Petunjuk Pengerjaan:</strong> Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis pada lembar kerja kalian!
+            <strong>📋 Petunjuk Pengerjaan Kelas 7:</strong><br>
+            Materi: Negara Kesatuan Republik Indonesia (NKRI) | Semester Genap<br>
+            Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis!
         </div>
 
-        <!-- DAFTAR SOAL -->
-        <div class="soal-card">
-            <span class="badge-info">Soal 1</span>
-            <p class="soal-text">Jelaskan pengertian Wawasan Nusantara secara etimologis (asal kata) dan terminologis (istilah)!</p>
+        <div class="soal-card"><span class="badge-info">Soal 1</span><p class="soal-text">Jelaskan apa yang dimaksud dengan Negara Kesatuan Republik Indonesia (NKRI)!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 2</span><p class="soal-text">Sebutkan dan jelaskan 3 (tiga) prinsip pokok yang terkandung dalam Bhinneka Tunggal Ika!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 3</span><p class="soal-text">Mengapa NKRI disebut sebagai negara kepulauan (archipelagic state)? Berikan ciri-cirinya!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 4</span><p class="soal-text">Jelaskan makna penting dari Sumpah Pemuda 28 Oktober 1928 bagi berdirinya NKRI!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 5</span><p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara? Sebutkan 2 (dua) fungsi utamanya!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 6</span><p class="soal-text">Bagaimana sikap yang seharusnya ditunjukkan oleh seorang pelajar ketika ada teman yang berbeda suku dan agama? Berikan 2 (dua) contoh tindakan nyata!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 7</span><p class="soal-text">Jelaskan 3 (tiga) ancaman terhadap keutuhan NKRI yang berasal dari dalam negeri (internal)!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 8</span><p class="soal-text">Mengapa kita harus rela berkorban demi keutuhan NKRI? Berikan alasanmu!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 9</span><p class="soal-text">Sebutkan 3 (tiga) perilaku yang mencerminkan rasa cinta tanah air di lingkungan sekolah!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 10</span><p class="soal-text">Menurut pendapatmu, apa akibatnya jika semangat persatuan dan kesatuan bangsa mulai luntur? Berikan 2 (dua) contoh!</p></div>
+
+        <button onclick="selesaiMelihat()">Selesai & Tutup Soal</button>
+    </div>
+
+    <!-- ==================== KONTEN SOAL KELAS 8 ==================== -->
+    <div id="section-soal-8">
+        <div class="pemberitahuan-penting">
+            📝 PENTING: JAWABAN WAJIB DITULIS DI BUKU CATATAN ATAU KERTAS SELEMBAR!
+        </div>
+        <div class="petunjuk-box">
+            <strong>📋 Petunjuk Pengerjaan Kelas 8:</strong><br>
+            Materi: Wawasan Nusantara | Semester Genap<br>
+            Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis!
         </div>
 
-        <div class="soal-card">
-            <span class="badge-info">Soal 2</span>
-            <p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara sebagai geopolitik Indonesia? Jelaskan secara singkat!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 3</span>
-            <p class="soal-text">Sebutkan dan jelaskan 3 (tiga) unsur dasar Wawasan Nusantara!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 4</span>
-            <p class="soal-text">Bagaimana bunyi dan makna semboyan "Bhinneka Tunggal Ika" dalam kaitannya dengan Wawasan Nusantara?</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 5</span>
-            <p class="soal-text">Jelaskan 2 (dua) fungsi utama Wawasan Nusantara bagi bangsa Indonesia!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 6</span>
-            <p class="soal-text">Mengapa Wawasan Nusantara sangat penting untuk diterapkan dalam kehidupan bermasyarakat, berbangsa, dan bernegara? Berikan 2 alasan!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 7</span>
-            <p class="soal-text">Sebutkan 3 (tiga) contoh penerapan Wawasan Nusantara di lingkungan sekolah!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 8</span>
-            <p class="soal-text">Apa yang dimaksud dengan asas Wawasan Nusantara "Keadilan"? Berikan contohnya dalam kehidupan sehari-hari!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 9</span>
-            <p class="soal-text">Jelaskan akibat negatif jika suatu bangsa tidak memiliki wawasan nusantara yang kuat! Berikan 2 contoh konkret!</p>
-        </div>
-
-        <div class="soal-card">
-            <span class="badge-info">Soal 10</span>
-            <p class="soal-text">Menurut pendapatmu, bagaimana cara generasi muda (seperti pelajar kelas 8) dapat ikut serta mewujudkan Wawasan Nusantara di era globalisasi saat ini? Berikan minimal 2 cara!</p>
-        </div>
+        <div class="soal-card"><span class="badge-info">Soal 1</span><p class="soal-text">Jelaskan pengertian Wawasan Nusantara secara etimologis (asal kata) dan terminologis (istilah)!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 2</span><p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara sebagai geopolitik Indonesia? Jelaskan secara singkat!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 3</span><p class="soal-text">Sebutkan dan jelaskan 3 (tiga) unsur dasar Wawasan Nusantara!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 4</span><p class="soal-text">Bagaimana bunyi dan makna semboyan "Bhinneka Tunggal Ika" dalam kaitannya dengan Wawasan Nusantara?</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 5</span><p class="soal-text">Jelaskan 2 (dua) fungsi utama Wawasan Nusantara bagi bangsa Indonesia!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 6</span><p class="soal-text">Mengapa Wawasan Nusantara sangat penting untuk diterapkan dalam kehidupan bermasyarakat, berbangsa, dan bernegara? Berikan 2 alasan!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 7</span><p class="soal-text">Sebutkan 3 (tiga) contoh penerapan Wawasan Nusantara di lingkungan sekolah!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 8</span><p class="soal-text">Apa yang dimaksud dengan asas Wawasan Nusantara "Keadilan"? Berikan contohnya dalam kehidupan sehari-hari!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 9</span><p class="soal-text">Jelaskan akibat negatif jika suatu bangsa tidak memiliki wawasan nusantara yang kuat! Berikan 2 contoh konkret!</p></div>
+        <div class="soal-card"><span class="badge-info">Soal 10</span><p class="soal-text">Menurut pendapatmu, bagaimana cara generasi muda (seperti pelajar kelas 8) dapat ikut serta mewujudkan Wawasan Nusantara di era globalisasi saat ini? Berikan minimal 2 cara!</p></div>
 
         <button onclick="selesaiMelihat()">Selesai & Tutup Soal</button>
     </div>
 </div>
 
 <script>
-    // Daftar Token Resmi per Kelas 8
-    const tokenKelas = {
-        '8A': 'WAWASAN8A',
-        '8B': 'WAWASAN8B',
-        '8C': 'WAWASAN8C',
-        '8D': 'WAWASAN8D',
-        '8E': 'WAWASAN8E',
-        '8F': 'WAWASAN8F'
+    // Master Token Database seluruh kelas
+    const databaseToken = {
+        '7C': 'NKRI7C', '7D': 'NKRI7D', '7E': 'NKRI7E', '7F': 'NKRI7F', '7G': 'NKRI7G',
+        '8A': 'WAWASAN8A', '8B': 'WAWASAN8B', '8C': 'WAWASAN8C', '8D': 'WAWASAN8D', '8E': 'WAWASAN8E', '8F': 'WAWASAN8F'
     };
 
-    function verifikasiAkses() {
-        const nama = document.getElementById('nama').value.trim();
-        const kelas = document.getElementById('kelas').value;
-        const tokenInput = document.getElementById('token').value.trim();
-        const errorMsg = document.getElementById('error-msg');
+    // Fungsi mengubah isi pilihan kelas berdasarkan pilihan tingkat (7 atau 8)
+    function updateOpsiKelas() {
+        const tingkat = document.getElementById('tingkat').value;
+        const kelasSelect = document.getElementById('kelas');
+        
+        kelasSelect.innerHTML = ''; // Reset isi
 
-        if (!nama || !kelas || !tokenInput) {
-            errorMsg.innerText = "⚠️ Yuk, lengkapi nama, kelas, dan tokenmu dulu!";
+        if (tingkat === '') {
+            kelasSelect.innerHTML = '<option value="">-- Pilih Tingkat Terlebih Dahulu --</option>';
+            kelasSelect.disabled = true;
             return;
         }
 
-        // Validasi kecocokan token
-        if (tokenInput.toUpperCase() === tokenKelas[kelas]) {
+        kelasSelect.disabled = false;
+        kelasSelect.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+
+        if (tingkat === '7') {
+            const list7 = ['7C', '7D', '7E', '7F', '7G'];
+            list7.forEach(k => {
+                kelasSelect.innerHTML += `<option value="${k}">${k}</option>`;
+            });
+        } else if (tingkat === '8') {
+            const list8 = ['8A', '8B', '8C', '8D', '8E', '8F'];
+            list8.forEach(k => {
+                kelasSelect.innerHTML += `<option value="${k}">${k}</option>`;
+            });
+        }
+    }
+
+    // Fungsi memverifikasi input dan membuka soal yang sesuai
+    function verifikasiAkses() {
+        const nama = document.getElementById('nama').value.trim();
+        const tingkat = document.getElementById('tingkat').value;
+        const kelas = document.getElementById('kelas').value;
+        const tokenInput = document.getElementById('token').value.trim().toUpperCase();
+        const errorMsg = document.getElementById('error-msg');
+
+        if (!nama || !tingkat || !kelas || !tokenInput) {
+            errorMsg.innerText = "⚠️ Yuk, isi nama, tingkat, kelas, dan tokenmu dengan lengkap!";
+            return;
+        }
+
+        // Cek kecocokan token di database
+        if (tokenInput === databaseToken[kelas]) {
+            // Sembunyikan form login
             document.getElementById('section-login').style.display = 'none';
-            document.getElementById('section-soal').style.display = 'block';
+            
+            // Tampilkan soal sesuai tingkat kelas yang dipilih
+            if (tingkat === '7') {
+                document.getElementById('section-soal-7').style.display = 'block';
+            } else if (tingkat === '8') {
+                document.getElementById('section-soal-8').style.display = 'block';
+            }
             window.scrollTo(0, 0);
         } else {
             errorMsg.innerText = "❌ Ups! Token salah atau tidak cocok dengan kelas pilihanmu.";
@@ -268,7 +293,7 @@
     }
 
     function selesaiMelihat() {
-        alert("Selamat belajar! Pastikan semua jawaban sudah ditulis rapi di buku catatan atau kertas selembar ya. Semangat!");
+        alert("Selamat belajar! Jangan lupa pastikan semua jawaban sudah tersalin rapi di buku catatan atau kertas selembaran ya!");
         location.reload(); 
     }
 </script>
