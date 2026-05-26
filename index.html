@@ -1,302 +1,521 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Tugas PJJ Pendidikan Pancasila</title>
-    <style>
-        :root {
-            --primary-color: #ff6b6b; /* Merah muda cerah penuh semangat */
-            --secondary-color: #4dadf7; /* Biru langit cerah */
-            --accent-color: #ffd43b; /* Kuning ceria */
-            --bg-color: #e7f5ff; /* Background biru muda segar */
-            --text-color: #2b2b2b;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-            color: var(--text-color);
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            border-top: 8px solid var(--primary-color);
-        }
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            font-size: 2rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-        }
-        .subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 0;
-            color: var(--secondary-color);
-        }
-        .petunjuk-box {
-            background-color: #fff9db;
-            border-left: 5px solid var(--accent-color);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        .petunjuk-box strong {
-            color: #e67e22;
-        }
-        .pemberitahuan-penting {
-            background-color: #ffec99;
-            border: 2px dashed #f59f00;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #d9480f;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #495057;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary-color), #f06595);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(240, 101, 149, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(240, 101, 149, 0.4);
-        }
-        .soal-card {
-            background: #f8f9fa;
-            padding: 18px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--secondary-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .soal-text {
-            font-weight: 600;
-            margin: 0;
-            font-size: 1.05rem;
-            line-height: 1.5;
-        }
-        #section-soal-7, #section-soal-8 {
-            display: none;
-        }
-        .alert {
-            color: #fa5252;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 12px;
-        }
-        .badge-info {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Soal Essay – PKn Kelas VIII</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #0d1b2a;
+  --surface:  #132338;
+  --card:     #1a3050;
+  --border:   rgba(255,255,255,.07);
+  --gold:     #f5c842;
+  --red:      #e05252;
+  --white:    #f0f4f8;
+  --muted:    #8ba0b8;
+  --teal:     #34d4b0;
+  --sky:      #60b4f0;
+  --radius:   18px;
+  --font:     'Plus Jakarta Sans', sans-serif;
+  --display:  'Fraunces', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BG MESH ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(245,200,66,.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 70%, rgba(52,212,176,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 100%, rgba(96,180,240,.06) 0%, transparent 55%);
+}
+
+.page { position:relative; z-index:1; max-width:880px; margin:0 auto; padding:40px 20px 80px; }
+
+/* ── HEADER ── */
+header { text-align:center; margin-bottom:48px; animation: popIn .8s cubic-bezier(.34,1.56,.64,1) both; }
+
+.flag-strip {
+  display:inline-flex; gap:0; border-radius:999px; overflow:hidden;
+  margin-bottom:18px; box-shadow: 0 0 0 3px rgba(255,255,255,.1);
+}
+.flag-strip span { display:block; width:36px; height:12px; }
+.flag-strip .red  { background:#ce1126; }
+.flag-strip .white{ background:#fff; }
+
+.kop {
+  font-size:.72rem; letter-spacing:.18em; color:var(--gold);
+  text-transform:uppercase; font-weight:700; margin-bottom:12px;
+}
+
+header h1 {
+  font-family: var(--display);
+  font-size: clamp(2rem,6vw,3.4rem);
+  font-weight:900; line-height:1.1;
+  color: var(--white);
+}
+header h1 span {
+  font-style:italic; color:var(--gold);
+}
+
+.sub-header {
+  margin-top:14px; font-size:.9rem; color:var(--muted);
+  display:flex; flex-wrap:wrap; justify-content:center; gap:6px 18px;
+}
+.sub-header b { color:var(--white); }
+
+/* ── INFO STRIP ── */
+.info-strip {
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  margin-bottom:36px;
+  animation: fadeUp .5s .15s both;
+}
+.pill {
+  display:flex; align-items:center; gap:7px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:999px; padding:8px 16px;
+  font-size:.82rem; font-weight:700; color:var(--white);
+}
+.pill .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+.pill .dot.gold   { background:var(--gold); }
+.pill .dot.teal   { background:var(--teal); }
+.pill .dot.red    { background:var(--red); }
+.pill .dot.sky    { background:var(--sky); }
+
+/* ── DIVIDER ── */
+.divider {
+  display:flex; align-items:center; gap:14px;
+  margin:32px 0 22px;
+  animation: fadeUp .5s both;
+}
+.divider::before,.divider::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.divider-label {
+  font-size:.7rem; letter-spacing:.15em; color:var(--muted);
+  text-transform:uppercase; font-weight:700; white-space:nowrap;
+}
+
+/* ── SECTION HEADERS ── */
+.section-title {
+  font-family:var(--display); font-size:1.15rem; font-weight:700;
+  color:var(--gold); margin-bottom:18px;
+  display:flex; align-items:center; gap:10px;
+}
+.section-title::before {
+  content:''; width:4px; height:1.2em; border-radius:2px;
+  background:linear-gradient(180deg,var(--gold),var(--teal));
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:0;
+  margin-bottom:16px;
+  overflow:hidden;
+  transition:transform .2s, box-shadow .2s;
+  animation:fadeUp .5s both;
+}
+.q-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 14px 36px rgba(0,0,0,.3);
+}
+
+.q-top {
+  display:flex; align-items:stretch; gap:0;
+}
+
+.q-num-col {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:62px; padding:20px 14px;
+  border-right:1px solid var(--border);
+  background:var(--card);
+}
+.q-num {
+  font-family:var(--display); font-size:1.6rem; font-weight:900; line-height:1;
+}
+.q-tag {
+  font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
+  margin-top:4px; font-weight:700; opacity:.6;
+}
+
+.q-body { padding:20px 22px; flex:1; }
+
+.q-type-badge {
+  display:inline-block; font-size:.65rem; letter-spacing:.1em;
+  text-transform:uppercase; font-weight:800;
+  padding:3px 10px; border-radius:999px; margin-bottom:10px;
+}
+.badge-fact    { background:rgba(96,180,240,.15); color:var(--sky); }
+.badge-analisis{ background:rgba(245,200,66,.15);  color:var(--gold); }
+.badge-opini   { background:rgba(52,212,176,.15);  color:var(--teal); }
+.badge-hafalan { background:rgba(224,82,82,.15);   color:var(--red); }
+
+.q-text {
+  font-size:.95rem; line-height:1.75; color:var(--white);
+  font-weight:500;
+}
+.q-text strong { color:var(--gold); }
+
+.q-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 22px 14px;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,.1);
+}
+.q-points {
+  font-size:.78rem; color:var(--muted); font-weight:700;
+  display:flex; align-items:center; gap:6px;
+}
+.q-points .stars { color:var(--gold); }
+
+.q-hint {
+  font-size:.72rem; color:var(--muted); font-style:italic;
+}
+
+/* ── COLOR CODED NUMS ── */
+.n1,.n2,.n7,.n8 { color:var(--sky); }
+.n3,.n5,.n9,.n10{ color:var(--gold); }
+.n4,.n6         { color:var(--red); }
+
+/* ── ANSWER BOX HINT ── */
+.answer-area {
+  margin:10px 22px 18px;
+  background:rgba(255,255,255,.03);
+  border:1px dashed rgba(255,255,255,.1);
+  border-radius:10px; padding:12px 16px;
+  font-size:.82rem; color:rgba(255,255,255,.25);
+  font-style:italic; text-align:center;
+  pointer-events:none;
+}
+
+/* ── TOTAL SCORE ── */
+.score-bar {
+  background:linear-gradient(135deg, #1e3a5f, #0f2840);
+  border:1px solid rgba(245,200,66,.25);
+  border-radius:var(--radius);
+  padding:24px 28px;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:14px;
+  margin:36px 0;
+  animation: fadeUp .5s .5s both;
+}
+.score-bar h3 {
+  font-family:var(--display); font-size:1.1rem; color:var(--gold);
+}
+.score-bar p { font-size:.85rem; color:var(--muted); margin-top:4px; }
+.total-num {
+  font-family:var(--display); font-size:2.6rem; font-weight:900;
+  background:linear-gradient(135deg,var(--gold),#ffaa00);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  line-height:1;
+}
+.total-label { font-size:.75rem; color:var(--muted); text-align:right; font-weight:700; }
+
+/* ── KETENTUAN ── */
+.rules-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin-bottom:28px;
+  animation:fadeUp .5s .45s both;
+}
+@media(max-width:540px){ .rules-grid{ grid-template-columns:1fr; } }
+
+.rule {
+  display:flex; gap:12px; align-items:flex-start;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:14px; padding:14px 16px;
+  font-size:.85rem; line-height:1.55;
+}
+.rule-icon { font-size:1.2rem; flex-shrink:0; margin-top:1px; }
+.rule strong { display:block; color:var(--white); font-weight:700; margin-bottom:2px; }
+.rule span { color:var(--muted); }
+
+/* ── FOOTER ── */
+footer {
+  text-align:center; margin-top:50px;
+  animation:fadeUp .5s .6s both;
+}
+.footer-bar {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px 28px;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:12px;
+}
+.footer-bar p { font-size:.82rem; color:var(--muted); }
+.footer-bar p strong { color:var(--white); }
+.good-luck {
+  display:inline-flex; align-items:center; gap:8px;
+  background:linear-gradient(135deg,var(--gold),#e6a800);
+  color:#1a1000; font-weight:800; font-size:.85rem;
+  padding:8px 20px; border-radius:999px;
+  white-space:nowrap;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes popIn {
+  from { opacity:0; transform:scale(.9) translateY(-20px); }
+  to   { opacity:1; transform:scale(1)  translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.q-card:nth-child(1)  { animation-delay:.1s }
+.q-card:nth-child(2)  { animation-delay:.15s }
+.q-card:nth-child(3)  { animation-delay:.2s }
+.q-card:nth-child(4)  { animation-delay:.25s }
+.q-card:nth-child(5)  { animation-delay:.3s }
+.q-card:nth-child(6)  { animation-delay:.35s }
+.q-card:nth-child(7)  { animation-delay:.38s }
+.q-card:nth-child(8)  { animation-delay:.42s }
+.q-card:nth-child(9)  { animation-delay:.45s }
+.q-card:nth-child(10) { animation-delay:.48s }
+</style>
 </head>
 <body>
+<div class="page">
 
-<div class="container">
-    <!-- HEADER PORTAL -->
-    <h1>✨ Portal Kuis Online ✨</h1>
-    <p class="subtitle">Pendidikan Pancasila | Kegiatan PJJ Sekolah</p>
-    <hr style="border: 0; border-top: 2px dashed #dee2e6; margin-bottom: 25px;">
-
-    <!-- GERBANG LOGIN UTAMA -->
-    <div id="section-login">
-        <div class="form-group">
-            <label for="nama">Nama Lengkap:</label>
-            <input type="text" id="nama" placeholder="Masukkan nama lengkapmu..." required>
-        </div>
-        
-        <div class="form-group">
-            <label for="tingkat">Pilih Tingkat Kelas:</label>
-            <select id="tingkat" onchange="updateOpsiKelas()">
-                <option value="">-- Pilih Tingkat --</option>
-                <option value="7">Kelas 7</option>
-                <option value="8">Kelas 8</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="kelas">Pilih Kelas Spesifik:</label>
-            <select id="kelas" disabled>
-                <option value="">-- Pilih Tingkat Terlebih Dahulu --</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="token">Token Akses Kelas:</label>
-            <input type="text" id="token" placeholder="Masukkan token khusus kelasmu..." required>
-        </div>
-        
-        <button onclick="verifikasiAkses()">Buka Lembar Soal 🚀</button>
-        <div id="error-msg" class="alert"></div>
+  <!-- HEADER -->
+  <header>
+    <div class="flag-strip"><span class="red"></span><span class="white"></span></div>
+    <div class="kop">🏛️ Pendidikan Kewarganegaraan &nbsp;·&nbsp; SMP Kelas VIII</div>
+    <h1>Soal <span>Essay</span><br>NKRI & Kebangsaan</h1>
+    <div class="sub-header">
+      <span>Mata Pelajaran: <b>PKn</b></span>
+      <span>Kelas: <b>VIII</b></span>
+      <span>Sifat: <b>Open Book</b></span>
+      <span>Waktu: <b>90 menit</b></span>
     </div>
+  </header>
 
-    <!-- ==================== KONTEN SOAL KELAS 7 ==================== -->
-    <div id="section-soal-7">
-        <div class="pemberitahuan-penting">
-            📝 PENTING: JAWABAN WAJIB DITULIS DI BUKU CATATAN ATAU KERTAS SELEMBAR!
-        </div>
-        <div class="petunjuk-box">
-            <strong>📋 Petunjuk Pengerjaan Kelas 7:</strong><br>
-            Materi: Negara Kesatuan Republik Indonesia (NKRI) | Semester Genap<br>
-            Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis!
-        </div>
+  <!-- PILLS INFO -->
+  <div class="info-strip">
+    <div class="pill"><span class="dot gold"></span>10 Soal Essay</div>
+    <div class="pill"><span class="dot teal"></span>Materi: NKRI & Nasionalisme</div>
+    <div class="pill"><span class="dot sky"></span>Jawab semua soal</div>
+    <div class="pill"><span class="dot red"></span>Total Nilai: 100</div>
+  </div>
 
-        <div class="soal-card"><span class="badge-info">Soal 1</span><p class="soal-text">Jelaskan apa yang dimaksud dengan Negara Kesatuan Republik Indonesia (NKRI)!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 2</span><p class="soal-text">Sebutkan dan jelaskan 3 (tiga) prinsip pokok yang terkandung dalam Bhinneka Tunggal Ika!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 3</span><p class="soal-text">Mengapa NKRI disebut sebagai negara kepulauan (archipelagic state)? Berikan ciri-cirinya!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 4</span><p class="soal-text">Jelaskan makna penting dari Sumpah Pemuda 28 Oktober 1928 bagi berdirinya NKRI!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 5</span><p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara? Sebutkan 2 (dua) fungsi utamanya!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 6</span><p class="soal-text">Bagaimana sikap yang seharusnya ditunjukkan oleh seorang pelajar ketika ada teman yang berbeda suku dan agama? Berikan 2 (dua) contoh tindakan nyata!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 7</span><p class="soal-text">Jelaskan 3 (tiga) ancaman terhadap keutuhan NKRI yang berasal dari dalam negeri (internal)!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 8</span><p class="soal-text">Mengapa kita harus rela berkorban demi keutuhan NKRI? Berikan alasanmu!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 9</span><p class="soal-text">Sebutkan 3 (tiga) perilaku yang mencerminkan rasa cinta tanah air di lingkungan sekolah!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 10</span><p class="soal-text">Menurut pendapatmu, apa akibatnya jika semangat persatuan dan kesatuan bangsa mulai luntur? Berikan 2 (dua) contoh!</p></div>
+  <!-- KETENTUAN -->
+  <div class="section-title">📋 Petunjuk Mengerjakan</div>
+  <div class="rules-grid">
+    <div class="rule"><span class="rule-icon">✍️</span><div><strong>Tulis lengkap identitas</strong><span>Nama, kelas, dan tanggal di pojok kanan atas lembar jawaban</span></div></div>
+    <div class="rule"><span class="rule-icon">💡</span><div><strong>Gunakan bahasa sendiri</strong><span>Jawab dengan bahasamu sendiri, hindari menyalin kata per kata dari buku</span></div></div>
+    <div class="rule"><span class="rule-icon">📊</span><div><strong>Perhatikan poin soal</strong><span>Soal analisis & opini memiliki bobot lebih besar — beri jawaban lebih detail</span></div></div>
+    <div class="rule"><span class="rule-icon">🔍</span><div><strong>Baca soal dengan cermat</strong><span>Terutama soal nomor 3, 5, 9, dan 10 yang membutuhkan analisis mendalam</span></div></div>
+  </div>
 
-        <button onclick="selesaiMelihat()">Selesai & Tutup Soal</button>
+  <!-- DIVIDER -->
+  <div class="divider"><span class="divider-label">Bagian I — Fakta & Pemahaman</span></div>
+  <div class="section-title">📖 Soal Nomor 1–2 · Fakta Sejarah</div>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n1">1</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-fact">Fakta Sejarah</span>
+        <p class="q-text">Jelaskan secara singkat <strong>proses ditetapkannya Negara Kesatuan Republik Indonesia (NKRI)</strong> pada tanggal <strong>18 Agustus 1945</strong>! Siapa lembaga yang menetapkan dan apa dasar hukumnya?</p>
+      </div>
     </div>
-
-    <!-- ==================== KONTEN SOAL KELAS 8 ==================== -->
-    <div id="section-soal-8">
-        <div class="pemberitahuan-penting">
-            📝 PENTING: JAWABAN WAJIB DITULIS DI BUKU CATATAN ATAU KERTAS SELEMBAR!
-        </div>
-        <div class="petunjuk-box">
-            <strong>📋 Petunjuk Pengerjaan Kelas 8:</strong><br>
-            Materi: Wawasan Nusantara | Semester Genap<br>
-            Jawablah pertanyaan-pertanyaan berikut dengan jelas, tepat, dan logis!
-        </div>
-
-        <div class="soal-card"><span class="badge-info">Soal 1</span><p class="soal-text">Jelaskan pengertian Wawasan Nusantara secara etimologis (asal kata) dan terminologis (istilah)!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 2</span><p class="soal-text">Apa yang dimaksud dengan Wawasan Nusantara sebagai geopolitik Indonesia? Jelaskan secara singkat!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 3</span><p class="soal-text">Sebutkan dan jelaskan 3 (tiga) unsur dasar Wawasan Nusantara!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 4</span><p class="soal-text">Bagaimana bunyi dan makna semboyan "Bhinneka Tunggal Ika" dalam kaitannya dengan Wawasan Nusantara?</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 5</span><p class="soal-text">Jelaskan 2 (dua) fungsi utama Wawasan Nusantara bagi bangsa Indonesia!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 6</span><p class="soal-text">Mengapa Wawasan Nusantara sangat penting untuk diterapkan dalam kehidupan bermasyarakat, berbangsa, dan bernegara? Berikan 2 alasan!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 7</span><p class="soal-text">Sebutkan 3 (tiga) contoh penerapan Wawasan Nusantara di lingkungan sekolah!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 8</span><p class="soal-text">Apa yang dimaksud dengan asas Wawasan Nusantara "Keadilan"? Berikan contohnya dalam kehidupan sehari-hari!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 9</span><p class="soal-text">Jelaskan akibat negatif jika suatu bangsa tidak memiliki wawasan nusantara yang kuat! Berikan 2 contoh konkret!</p></div>
-        <div class="soal-card"><span class="badge-info">Soal 10</span><p class="soal-text">Menurut pendapatmu, bagaimana cara generasi muda (seperti pelajar kelas 8) dapat ikut serta mewujudkan Wawasan Nusantara di era globalisasi saat ini? Berikan minimal 2 cara!</p></div>
-
-        <button onclick="selesaiMelihat()">Selesai & Tutup Soal</button>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
+      <div class="q-hint">Sebutkan: lembaga, tanggal, dan dasar hukum</div>
     </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n2">2</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-fact">Fakta Sejarah</span>
+        <p class="q-text">Kapan Indonesia sempat berubah menjadi <strong>negara serikat (federal)</strong> dan apa penyebab perubahan tersebut? Kapan Indonesia <strong>kembali ke bentuk negara kesatuan</strong>?</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
+      <div class="q-hint">Sebutkan tahun, penyebab, dan tanggal kembali ke NKRI</div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider"><span class="divider-label">Bagian II — Analisis & Pasal UUD</span></div>
+  <div class="section-title">🔎 Soal Nomor 3–5 · Analisis Mendalam</div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n3">3</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-analisis">Analisis</span>
+        <p class="q-text">Berdasarkan materi, Indonesia pernah <strong>berganti-ganti bentuk negara</strong> (kesatuan dan serikat) akibat perubahan undang-undang dasar. Analisislah mengapa perubahan bentuk negara tersebut bisa terjadi dan <strong>apa dampaknya terhadap kedaulatan dan persatuan bangsa Indonesia</strong> saat itu!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★★</span> 12 poin</div>
+      <div class="q-hint">Sebab perubahan + dampak terhadap kedaulatan & persatuan</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n4">4</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-hafalan">Hafalan</span>
+        <p class="q-text">Sebutkan <strong>tiga pasal dalam UUD NRI Tahun 1945</strong> yang menjadi dasar bentuk Negara Kesatuan Republik Indonesia setelah masa Reformasi, serta tuliskan <strong>bunyi atau inti sari</strong> dari masing-masing pasal tersebut!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★★</span> 12 poin</div>
+      <div class="q-hint">Pasal → Bunyi/Inti sari (3 pasal)</div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n5">5</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-opini">Opini & Analisis</span>
+        <p class="q-text"><strong>Pasal 37 Ayat (5) UUD NRI Tahun 1945</strong> menyatakan bahwa bentuk Negara Kesatuan Republik Indonesia tidak dapat diubah. Menurut pendapat Anda, mengapa ketentuan ini sangat penting untuk dijaga? Berikan argumen dengan <strong>mengaitkan pada karakteristik Indonesia sebagai negara kepulauan yang beragam budaya</strong>!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★★★</span> 14 poin</div>
+      <div class="q-hint">Argumen kuat + kaitkan dengan kondisi geografis & budaya Indonesia</div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider"><span class="divider-label">Bagian III — Nasionalisme & Toleransi</span></div>
+  <div class="section-title">🇮🇩 Soal Nomor 6–10 · Nilai Kebangsaan</div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n6">6</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-hafalan">Pemahaman Konsep</span>
+        <p class="q-text">Jelaskan <strong>perbedaan nasionalisme dalam arti luas</strong> dan <strong>nasionalisme dalam arti sempit</strong> berdasarkan materi!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
+      <div class="q-hint">Bandingkan dua pengertian secara jelas dan runtut</div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n7">7</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-fact">Penerapan</span>
+        <p class="q-text">Sebutkan <strong>tiga contoh penerapan sikap cinta tanah air</strong> dalam kehidupan sehari-hari menurut materi!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
+      <div class="q-hint">Minimal 3 contoh konkret dari materi</div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n8">8</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-fact">Pemahaman</span>
+        <p class="q-text">Apa yang dimaksud dengan <strong>toleransi</strong>? Mengapa toleransi sangat penting bagi Indonesia?</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
+      <div class="q-hint">Definisi + alasan pentingnya bagi Indonesia yang beragam</div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n9">9</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-opini">Opini</span>
+        <p class="q-text">Menurut pendapat Anda, <strong>apa yang akan terjadi jika masyarakat Indonesia tidak memiliki sikap toleransi</strong> dalam kehidupan berbangsa dan bernegara? Berikan <strong>minimal dua dampak negatif</strong>!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★★</span> 10 poin</div>
+      <div class="q-hint">Min. 2 dampak negatif dengan penjelasan yang masuk akal</div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-num-col"><div class="q-num n10">10</div><div class="q-tag">SOAL</div></div>
+      <div class="q-body">
+        <span class="q-type-badge badge-analisis">Analisis & Opini</span>
+        <p class="q-text"><strong>Bandingkan</strong> sikap cinta tanah air dalam arti luas dengan sikap nasionalisme sempit. Manakah yang <strong>lebih sesuai dengan nilai-nilai Pancasila</strong> dan persatuan Indonesia? Berikan alasan!</p>
+      </div>
+    </div>
+    <div class="answer-area">— Ruang jawaban —</div>
+    <div class="q-footer">
+      <div class="q-points"><span class="stars">★★★★</span> 12 poin</div>
+      <div class="q-hint">Bandingkan keduanya → pilih salah satu → beri alasan kuat</div>
+    </div>
+  </div>
+
+  <!-- TOTAL SCORE -->
+  <div class="score-bar">
+    <div>
+      <h3>Rekap Poin Soal</h3>
+      <p>No. 1–2 (8 pt×2) · No. 3–4 (12 pt×2) · No. 5 (14 pt) · No. 6–8 (8 pt×3) · No. 9 (10 pt) · No. 10 (12 pt)</p>
+    </div>
+    <div>
+      <div class="total-num">100</div>
+      <div class="total-label">TOTAL POIN</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-bar">
+      <div>
+        <p><strong>PKn · Kelas VIII · SMP</strong></p>
+        <p>Kerjakan dengan jujur dan sungguh-sungguh · Dilarang bekerjasama</p>
+      </div>
+      <div class="good-luck">🌟 Selamat Mengerjakan!</div>
+    </div>
+  </footer>
+
 </div>
-
-<script>
-    // Master Token Database seluruh kelas
-    const databaseToken = {
-        '7C': 'NKRI7C', '7D': 'NKRI7D', '7E': 'NKRI7E', '7F': 'NKRI7F', '7G': 'NKRI7G',
-        '8A': 'WAWASAN8A', '8B': 'WAWASAN8B', '8C': 'WAWASAN8C', '8D': 'WAWASAN8D', '8E': 'WAWASAN8E', '8F': 'WAWASAN8F'
-    };
-
-    // Fungsi mengubah isi pilihan kelas berdasarkan pilihan tingkat (7 atau 8)
-    function updateOpsiKelas() {
-        const tingkat = document.getElementById('tingkat').value;
-        const kelasSelect = document.getElementById('kelas');
-        
-        kelasSelect.innerHTML = ''; // Reset isi
-
-        if (tingkat === '') {
-            kelasSelect.innerHTML = '<option value="">-- Pilih Tingkat Terlebih Dahulu --</option>';
-            kelasSelect.disabled = true;
-            return;
-        }
-
-        kelasSelect.disabled = false;
-        kelasSelect.innerHTML = '<option value="">-- Pilih Kelas --</option>';
-
-        if (tingkat === '7') {
-            const list7 = ['7C', '7D', '7E', '7F', '7G'];
-            list7.forEach(k => {
-                kelasSelect.innerHTML += `<option value="${k}">${k}</option>`;
-            });
-        } else if (tingkat === '8') {
-            const list8 = ['8A', '8B', '8C', '8D', '8E', '8F'];
-            list8.forEach(k => {
-                kelasSelect.innerHTML += `<option value="${k}">${k}</option>`;
-            });
-        }
-    }
-
-    // Fungsi memverifikasi input dan membuka soal yang sesuai
-    function verifikasiAkses() {
-        const nama = document.getElementById('nama').value.trim();
-        const tingkat = document.getElementById('tingkat').value;
-        const kelas = document.getElementById('kelas').value;
-        const tokenInput = document.getElementById('token').value.trim().toUpperCase();
-        const errorMsg = document.getElementById('error-msg');
-
-        if (!nama || !tingkat || !kelas || !tokenInput) {
-            errorMsg.innerText = "⚠️ Yuk, isi nama, tingkat, kelas, dan tokenmu dengan lengkap!";
-            return;
-        }
-
-        // Cek kecocokan token di database
-        if (tokenInput === databaseToken[kelas]) {
-            // Sembunyikan form login
-            document.getElementById('section-login').style.display = 'none';
-            
-            // Tampilkan soal sesuai tingkat kelas yang dipilih
-            if (tingkat === '7') {
-                document.getElementById('section-soal-7').style.display = 'block';
-            } else if (tingkat === '8') {
-                document.getElementById('section-soal-8').style.display = 'block';
-            }
-            window.scrollTo(0, 0);
-        } else {
-            errorMsg.innerText = "❌ Ups! Token salah atau tidak cocok dengan kelas pilihanmu.";
-        }
-    }
-
-    function selesaiMelihat() {
-        alert("Selamat belajar! Jangan lupa pastikan semua jawaban sudah tersalin rapi di buku catatan atau kertas selembaran ya!");
-        location.reload(); 
-    }
-</script>
-
 </body>
 </html>
