@@ -11,17 +11,30 @@
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f1f5f9;
+      background-color: #f8fafc;
+      -webkit-tap-highlight-color: transparent;
     }
     .custom-shadow {
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
     }
-    .accent-border {
-      border-top: 8px solid #dc2626;
+    .touch-option {
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .touch-option:active {
+      transform: scale(0.985);
+    }
+    /* Mobile option selected styling */
+    .option-selected-radio {
+      border-color: #dc2626 !important;
+      background-color: #fef2f2 !important;
+    }
+    .option-selected-check {
+      border-color: #7c3aed !important;
+      background-color: #faf5ff !important;
     }
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
       background: #f1f5f9;
@@ -40,101 +53,104 @@
     }
   </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen pb-20">
+<body class="text-slate-800 antialiased min-h-screen pb-28 md:pb-24">
 
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white font-black shadow-md shadow-red-200 text-lg">
+  <!-- Mobile-Friendly Sticky Top Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs no-print">
+    <div class="max-w-3xl mx-auto px-3.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-red-600 flex-shrink-0 flex items-center justify-center text-white font-black shadow-sm text-sm sm:text-base">
           PP
         </div>
-        <div>
-          <h1 class="font-bold text-xs sm:text-base text-slate-800 leading-tight">ASESMEN PENDIDIKAN PANCASILA KELAS IX</h1>
-          <p class="text-[11px] sm:text-xs text-slate-500 font-medium">UUD NRI Tahun 1945 • 30 Butir Soal Tingkat Menengah Atas/SMP</p>
+        <div class="truncate">
+          <h1 class="font-extrabold text-xs sm:text-sm text-slate-800 leading-tight truncate">Pendidikan Pancasila IX</h1>
+          <p class="text-[10px] sm:text-xs text-slate-500 font-medium truncate">Pasal 27–34 UUD 1945 • 30 Soal</p>
         </div>
       </div>
       
-      <div class="flex items-center gap-2 sm:gap-4">
-        <div class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full text-slate-700 font-bold text-xs sm:text-sm border border-slate-200">
-          <svg class="w-4 h-4 text-red-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- Compact Timer Pill -->
+        <div class="flex items-center gap-1 px-2.5 py-1 bg-red-50 text-red-700 rounded-full font-bold text-xs border border-red-200/80 shadow-xs">
+          <svg class="w-3.5 h-3.5 text-red-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" stroke-width="2"/>
             <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
           </svg>
-          <span id="exam-timer">60:00</span>
+          <span id="exam-timer" class="font-mono font-bold tracking-tight">60:00</span>
         </div>
 
-        <button onclick="toggleQuickNavModal()" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-red-50 text-red-700 hover:bg-red-100 transition flex items-center gap-1.5 border border-red-200">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Quick Nav Drawer Button -->
+        <button onclick="toggleQuickNavModal()" type="button" aria-label="Buka Peta Soal" class="h-8 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 transition flex items-center gap-1.5 border border-slate-200">
+          <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
           </svg>
-          <span>Peta Soal (1-30)</span>
+          <span class="hidden sm:inline">Peta Soal</span>
+          <span id="nav-count-badge" class="px-1.5 py-0.2 bg-red-600 text-white rounded-full text-[10px] leading-tight font-extrabold">0/30</span>
         </button>
       </div>
     </div>
 
-    <!-- Real-time Progress Bar -->
-    <div class="w-full bg-slate-200 h-1.5">
-      <div id="progress-bar" class="bg-gradient-to-r from-red-500 via-rose-500 to-red-600 h-1.5 w-0 transition-all duration-300"></div>
+    <!-- Slim Progress Line -->
+    <div class="w-full bg-slate-100 h-1">
+      <div id="progress-bar" class="bg-red-600 h-1 w-0 transition-all duration-300 ease-out"></div>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
+  <main class="max-w-3xl mx-auto px-3.5 sm:px-6 pt-4 sm:pt-6 space-y-4 sm:space-y-6">
 
-    <!-- Assessment Cover Banner -->
-    <div class="bg-white rounded-2xl custom-shadow overflow-hidden accent-border border border-slate-200/80">
-      <div class="bg-gradient-to-r from-red-700 via-rose-800 to-red-900 p-6 sm:p-8 text-white relative">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold tracking-wide uppercase mb-3 backdrop-blur-sm">
-          Kurikulum Pendidikan Pancasila SMP/MTs Kelas IX
+    <!-- Assessment Cover Banner (Refined for Mobile) -->
+    <div class="bg-white rounded-2xl custom-shadow overflow-hidden border border-slate-200/80">
+      <div class="bg-gradient-to-br from-red-600 via-rose-700 to-red-800 p-4 sm:p-6 text-white relative">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] sm:text-xs font-bold tracking-wide uppercase mb-2 backdrop-blur-sm">
+          <span>🇮🇩</span> Kelas IX SMP/MTs
         </div>
-        <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">Asesmen Analitis: Hak dan Kewajiban Warga Negara (UUD NRI 1945)</h2>
-        <p class="text-red-100 text-xs sm:text-sm mt-2 leading-relaxed max-w-2xl">
-          Pendalaman materi Buku Ajar Kelas IX: <strong>Pasal 27–34 UUD NRI Tahun 1945</strong>, UU No. 39 Tahun 1999 (HAM), serta telaah kritis atas Pelanggaran Hak dan Pengingkaran Kewajiban Warga Negara.
+        <h2 class="text-base sm:text-xl font-extrabold tracking-tight leading-snug">Asesmen: Hak dan Kewajiban Warga Negara (UUD NRI 1945)</h2>
+        <p class="text-red-100 text-[11px] sm:text-xs mt-1.5 leading-relaxed">
+          Buku Ajar Kelas IX: <strong>Pasal 27–34 UUD NRI 1945</strong>, UU No. 39 Th 1999 (HAM), serta telaah pelanggaran & pengingkaran kewajiban.
         </p>
       </div>
 
-      <div class="p-4 sm:p-5 bg-amber-50 border-t border-amber-200 text-xs sm:text-sm text-amber-900 flex items-start gap-3">
-        <span class="text-lg">📋</span>
-        <div class="space-y-1">
-          <p class="font-bold">Struktur Asesmen (Total 30 Soal):</p>
-          <ul class="list-disc list-inside space-y-0.5 text-amber-800">
-            <li><strong>Nomor 1 - 20:</strong> Pilihan Ganda Biasa (Pilih 1 opsi yang paling benar).</li>
-            <li><strong>Nomor 21 - 28:</strong> Pilihan Ganda Kompleks (Centang 2 atau lebih opsi yang benar).</li>
-            <li><strong>Nomor 29 - 30:</strong> Pertanyaan Refleksi & Pemahaman Esai.</li>
-          </ul>
+      <!-- Quick Guidance Chips -->
+      <div class="p-3 sm:p-4 bg-amber-50/80 border-t border-amber-200/70 text-[11px] sm:text-xs text-amber-900 flex items-start gap-2.5">
+        <span class="text-sm mt-0.5">💡</span>
+        <div class="space-y-0.5 leading-snug">
+          <p class="font-bold">Panduan Pengerjaan di HP:</p>
+          <p class="text-amber-800">
+            Cukup <strong>ketuk seluruh kotak opsi jawaban</strong> untuk memilih. Gunakan tombol nomor di kanan atas untuk berpindah soal dengan cepat.
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- Student Bio Card -->
-    <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-200/80 space-y-4" id="section-identity">
-      <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-        <span class="w-7 h-7 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-sm">A</span>
-        <h3 class="text-base font-bold text-slate-800">Identitas Peserta Didik</h3>
+    <!-- Student Bio Card (Mobile Ergonomic Inputs) -->
+    <div class="bg-white rounded-2xl p-4 sm:p-6 custom-shadow border border-slate-200/80 space-y-3.5" id="section-identity">
+      <div class="flex items-center gap-2 pb-2.5 border-b border-slate-100">
+        <span class="w-6 h-6 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-xs">1</span>
+        <h3 class="text-sm sm:text-base font-bold text-slate-800">Identitas Siswa</h3>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
             Nama Lengkap Siswa <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="student_name" placeholder="Masukkan nama lengkap Anda..." 
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+          <input type="text" id="student_name" placeholder="Ketik nama lengkap..." 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition placeholder:text-slate-400">
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-            Nomor Induk Siswa Nasional (NISN) <span class="text-red-500">*</span>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+            NISN (10 Digit) <span class="text-red-500">*</span>
           </label>
-          <input type="number" id="student_nisn" placeholder="10 Digit NISN" 
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+          <input type="number" inputmode="numeric" id="student_nisn" placeholder="Nomor NISN..." 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition placeholder:text-slate-400">
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-            Rombongan Belajar (Kelas) <span class="text-red-500">*</span>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+            Kelas (Rombel) <span class="text-red-500">*</span>
           </label>
-          <select id="student_class" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition font-medium">
-            <option value="">-- Pilih Rombel Kelas IX --</option>
+          <select id="student_class" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition font-semibold text-slate-700">
+            <option value="">-- Pilih Kelas IX --</option>
             <option value="9-A">Kelas 9-A</option>
             <option value="9-B">Kelas 9-B</option>
             <option value="9-C">Kelas 9-C</option>
@@ -145,133 +161,145 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
             Nomor Presensi (Absen) <span class="text-red-500">*</span>
           </label>
-          <input type="number" id="student_absent" min="1" max="45" placeholder="Contoh: 15" 
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+          <input type="number" inputmode="numeric" id="student_absent" min="1" max="45" placeholder="Contoh: 12" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition placeholder:text-slate-400">
         </div>
       </div>
     </div>
 
     <!-- Questions Container -->
-    <div id="questions-container" class="space-y-5">
-      <!-- 30 Questions rendered dynamically via JavaScript -->
-    </div>
-
-    <!-- Submission Floating / Action Bar -->
-    <div class="bg-white rounded-2xl p-5 sm:p-6 custom-shadow border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 no-print sticky bottom-4 z-30">
-      <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-        <button type="button" onclick="resetFormConfirmation()" class="text-xs font-bold text-slate-500 hover:text-red-600 transition">
-          Reset Jawaban
-        </button>
-        <span class="text-slate-300">|</span>
-        <span class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg" id="answered-badge">0 / 30 Terjawab</span>
-      </div>
-
-      <button type="button" id="submit-btn" onclick="submitAssessment()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold text-sm shadow-lg shadow-red-200 transition flex items-center justify-center gap-2">
-        <span id="submit-btn-text">Selesai & Kumpulkan Jawaban</span>
-        <svg id="submit-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-        </svg>
-      </button>
+    <div id="questions-container" class="space-y-4">
+      <!-- 30 Questions rendered dynamically via JavaScript with mobile-touch cards -->
     </div>
 
   </main>
 
-  <!-- Result & Score Modal -->
-  <div id="result-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
-      <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 p-6 text-white text-center">
-        <h3 class="text-xl sm:text-2xl font-extrabold">Hasil Evaluasi Belajar Siswa</h3>
-        <p class="text-red-100 text-xs sm:text-sm mt-1" id="res-student-info">Peserta Didik</p>
-        <div id="sync-status" class="inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-white/20 text-[11px] font-semibold tracking-wide">
+  <!-- Mobile Fixed Sticky Bottom Action Bar -->
+  <div class="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3.5 py-2.5 sm:py-3 shadow-lg no-print">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-3">
+      <!-- Progress pill -->
+      <button type="button" onclick="toggleQuickNavModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-left transition">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+        <div>
+          <p class="text-[10px] text-slate-500 font-semibold leading-none">Status</p>
+          <p class="text-xs font-extrabold text-slate-800 leading-tight" id="answered-badge">0 / 30 Diisi</p>
+        </div>
+      </button>
+
+      <!-- Submit button with large touch target -->
+      <button type="button" id="submit-btn" onclick="submitAssessment()" class="flex-1 sm:flex-initial px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-98 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-red-200 transition flex items-center justify-center gap-2">
+        <span id="submit-btn-text">Kumpulkan Jawaban</span>
+        <svg id="submit-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile-Optimized Result & Score Modal -->
+  <div id="result-modal" class="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-white w-full sm:max-w-2xl rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col animate-in slide-in-from-bottom duration-200">
+      <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 p-4 sm:p-5 text-white text-center flex-shrink-0">
+        <div class="w-10 h-1 bg-white/30 rounded-full mx-auto mb-3 sm:hidden"></div>
+        <h3 class="text-lg sm:text-xl font-black">Hasil Evaluasi Belajar</h3>
+        <p class="text-red-100 text-xs mt-0.5 truncate px-2" id="res-student-info">Peserta Didik</p>
+        <div id="sync-status" class="inline-flex items-center gap-1 px-2.5 py-0.5 mt-2 rounded-full bg-white/20 text-[10px] font-semibold">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          Menghubungkan ke Google Spreadsheet...
+          Menyimpan ke Spreadsheet...
         </div>
       </div>
 
-      <div class="p-6 overflow-y-auto space-y-6">
-        <!-- Scores Grid -->
-        <div class="grid grid-cols-3 gap-3 text-center">
-          <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <span class="block text-xs font-bold text-blue-600 uppercase">Nilai Akhir</span>
-            <span class="text-3xl sm:text-4xl font-black text-blue-700" id="res-score">0</span>
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
+        <!-- Compact Scores Grid for Mobile -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
+            <span class="block text-[10px] font-extrabold text-blue-600 uppercase">Skor</span>
+            <span class="text-2xl sm:text-3xl font-black text-blue-700" id="res-score">0</span>
           </div>
-          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
-            <span class="block text-xs font-bold text-emerald-600 uppercase">Tuntas / Benar</span>
-            <span class="text-3xl sm:text-4xl font-black text-emerald-700" id="res-correct">0/30</span>
+          <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+            <span class="block text-[10px] font-extrabold text-emerald-600 uppercase">Benar</span>
+            <span class="text-2xl sm:text-3xl font-black text-emerald-700" id="res-correct">0/30</span>
           </div>
-          <div class="p-4 bg-amber-50 rounded-xl border border-amber-200">
-            <span class="block text-xs font-bold text-amber-700 uppercase">Kualifikasi</span>
-            <span class="text-sm sm:text-base font-black text-amber-800 mt-2 block" id="res-grade">-</span>
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 flex flex-col justify-center">
+            <span class="block text-[10px] font-extrabold text-amber-700 uppercase">Predikat</span>
+            <span class="text-xs sm:text-sm font-black text-amber-800 mt-1 block" id="res-grade">-</span>
           </div>
         </div>
 
         <div>
-          <h4 class="font-bold text-slate-800 text-sm mb-3">Rangkuman Kunci & Pembahasan Berdasarkan Buku Teks</h4>
-          <div id="review-list" class="space-y-3">
+          <h4 class="font-extrabold text-slate-800 text-xs sm:text-sm mb-2.5">Kunci Jawaban & Pembahasan Buku Teks</h4>
+          <div id="review-list" class="space-y-2.5">
             <!-- Review items dynamically generated -->
           </div>
         </div>
       </div>
 
-      <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3">
-        <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs sm:text-sm flex items-center gap-2 transition">
+      <div class="p-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-2.5 flex-shrink-0">
+        <button onclick="window.print()" class="flex-1 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
           </svg>
           Cetak Hasil
         </button>
 
-        <button onclick="closeResultModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs sm:text-sm transition">
-          Tutup & Kembali
+        <button onclick="closeResultModal()" class="flex-1 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs transition text-center">
+          Selesai & Tutup
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Quick Nav Grid Modal -->
-  <div id="quick-nav-modal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white w-full max-w-md rounded-2xl p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-        <h3 class="font-bold text-slate-800 text-sm">Peta Nomor Soal (1 s/d 30)</h3>
-        <button onclick="toggleQuickNavModal()" class="text-slate-400 hover:text-slate-600">
+  <!-- Mobile Bottom Sheet / Modal Peta Soal -->
+  <div id="quick-nav-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-4 sm:p-5 shadow-2xl space-y-3.5 max-h-[85vh] flex flex-col">
+      <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto sm:hidden"></div>
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100 flex-shrink-0">
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm">Peta Nomor Soal (1 - 30)</h3>
+          <p class="text-[11px] text-slate-500">Ketuk nomor untuk langsung lompat ke soal</p>
+        </div>
+        <button onclick="toggleQuickNavModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 active:bg-slate-100">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <div class="grid grid-cols-6 sm:grid-cols-6 gap-2 max-h-72 overflow-y-auto p-1" id="nav-bubbles-container">
+      
+      <div class="grid grid-cols-5 sm:grid-cols-6 gap-2 overflow-y-auto p-1 max-h-64 sm:max-h-72" id="nav-bubbles-container">
         <!-- Bubbles injected -->
       </div>
-      <div class="flex items-center justify-center gap-4 text-[11px] text-slate-500 pt-2 border-t border-slate-100">
-        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span> Sudah Diisi</span>
-        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-200 inline-block"></span> Belum Diisi</span>
+
+      <div class="flex items-center justify-around text-[11px] text-slate-500 pt-2 border-t border-slate-100 flex-shrink-0">
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> Sudah Diisi</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span> Belum Diisi</span>
       </div>
     </div>
   </div>
 
   <!-- Custom Confirmation Dialog Modal -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl text-center space-y-4">
-      <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-xs sm:max-w-sm rounded-2xl p-5 shadow-2xl text-center space-y-3.5">
+      <div class="w-11 h-11 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
       </div>
       <div>
-        <h4 class="font-bold text-slate-800 text-base" id="confirm-title">Konfirmasi</h4>
-        <p class="text-xs text-slate-500 mt-1" id="confirm-desc">Yakin ingin melanjutkan tindakan ini?</p>
+        <h4 class="font-bold text-slate-800 text-sm sm:text-base" id="confirm-title">Konfirmasi</h4>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed" id="confirm-desc">Yakin ingin melanjutkan tindakan ini?</p>
       </div>
-      <div class="flex items-center gap-2 pt-2">
-        <button id="confirm-cancel-btn" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">Batal</button>
-        <button id="confirm-accept-btn" class="w-1/2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-xs font-bold text-white shadow-md shadow-red-200">Lanjutkan</button>
+      <div class="flex items-center gap-2 pt-1">
+        <button id="confirm-cancel-btn" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 active:bg-slate-100">Batal</button>
+        <button id="confirm-accept-btn" class="w-1/2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 text-xs font-bold text-white shadow-sm">Lanjutkan</button>
       </div>
     </div>
   </div>
 
-  <div id="custom-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl text-sm font-semibold"></div>
+  <!-- Toast Notification -->
+  <div id="custom-toast" class="fixed top-4 inset-x-4 sm:inset-x-auto sm:right-6 sm:top-6 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center justify-center sm:justify-start gap-2 px-4 py-2.5 rounded-xl shadow-xl text-xs sm:text-sm font-bold text-white text-center"></div>
 
   <script>
     // 30 Soal Berbobot Analisis & Penalaran Kritis (HOTS) Kelas IX
@@ -707,7 +735,7 @@
     // URL Google Apps Script Web App yang telah dideploy
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzE2uyOrkvWjdVz1depxo6OfJUDSPotoy8be0xBnKRF_alH73rtBqoo5kD7IK4nm1Jl/exec";
 
-    // Web Audio Synthesizer for modern click feedback (No external sound dependencies)
+    // Web Audio Synthesizer for modern touch feedback
     const audioCtx = (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') 
       ? new (window.AudioContext || window.webkitAudioContext)() 
       : null;
@@ -715,11 +743,14 @@
     function playTone(freq, type = 'sine', duration = 0.08) {
       if (!audioCtx) return;
       try {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = type;
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -737,27 +768,27 @@
       questionsData.forEach((q, index) => {
         const qCard = document.createElement('div');
         qCard.id = `card-q-${q.id}`;
-        qCard.className = "bg-white rounded-2xl p-5 sm:p-6 custom-shadow border border-slate-200/80 transition-all duration-200";
+        qCard.className = "bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-slate-200/80 transition-all duration-200";
 
         // Badges: Type & Category
         let typeBadge = '';
         if (q.type === 'single') {
-          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px]">Pilihan Ganda</span>';
+          typeBadge = '<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-bold text-[10px] sm:text-[11px]">Pilihan Ganda</span>';
         } else if (q.type === 'multiple') {
-          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-bold text-[11px]">Pilihan Ganda Kompleks</span>';
+          typeBadge = '<span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold text-[10px] sm:text-[11px]">Pilihan Kompleks</span>';
         } else {
-          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-bold text-[11px]">Pertanyaan Esai</span>';
+          typeBadge = '<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold text-[10px] sm:text-[11px]">Esai Pemahaman</span>';
         }
 
         let headerHtml = `
-          <div class="flex flex-wrap items-center justify-between gap-2 text-xs mb-3 font-semibold">
+          <div class="flex items-center justify-between gap-1.5 text-xs mb-2.5 font-semibold">
             <div class="flex items-center gap-2">
-              <span class="w-8 h-8 rounded-lg bg-slate-900 text-white font-black text-xs flex items-center justify-center">${index + 1}</span>
+              <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-slate-900 text-white font-black text-xs flex items-center justify-center">${index + 1}</span>
               ${typeBadge}
             </div>
-            <span class="px-2.5 py-1 rounded-md bg-red-50 text-red-700 font-bold text-[11px]">${q.category}</span>
+            <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 font-bold text-[10px] sm:text-[11px] truncate max-w-[150px] sm:max-w-none">${q.category}</span>
           </div>
-          <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed mb-4">
+          <p class="text-[13px] sm:text-[15px] font-semibold text-slate-800 leading-relaxed mb-3">
             ${q.question} <span class="text-red-500 font-bold">*</span>
           </p>
         `;
@@ -766,13 +797,13 @@
 
         if (q.type === 'single') {
           bodyHtml = `
-            <div class="space-y-2.5">
+            <div class="space-y-2">
               ${q.options.map((opt, optIdx) => `
-                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 cursor-pointer transition select-none group">
+                <label id="opt-label-${q.id}-${optIdx}" class="touch-option flex items-start gap-2.5 p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 active:bg-slate-100 cursor-pointer select-none">
                   <input type="radio" name="q_${q.id}" value="${optIdx}" onchange="handleSelectAnswer(${q.id}, ${optIdx})"
-                    class="mt-0.5 w-4 h-4 text-red-600 focus:ring-red-500 border-slate-300">
-                  <span class="text-xs sm:text-sm text-slate-700 group-hover:text-slate-900 leading-snug">
-                    <span class="font-bold text-slate-400 mr-1.5">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+                    class="mt-0.5 w-4 h-4 text-red-600 focus:ring-red-500 border-slate-300 flex-shrink-0">
+                  <span class="text-xs sm:text-sm text-slate-700 leading-snug">
+                    <strong class="text-slate-400 mr-1">${String.fromCharCode(65 + optIdx)}.</strong> ${opt}
                   </span>
                 </label>
               `).join('')}
@@ -780,14 +811,16 @@
           `;
         } else if (q.type === 'multiple') {
           bodyHtml = `
-            <div class="space-y-2.5">
-              <p class="text-xs text-purple-700 font-medium italic mb-2">Petunjuk: Centang semua jawaban yang benar (dapat lebih dari satu jawaban).</p>
+            <div class="space-y-2">
+              <p class="text-[11px] text-purple-700 font-semibold mb-1 flex items-center gap-1">
+                <span>☑️</span> Ketuk semua opsi yang benar (bisa lebih dari satu).
+              </p>
               ${q.options.map((opt, optIdx) => `
-                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-purple-50/40 hover:border-purple-200 cursor-pointer transition select-none group">
+                <label id="opt-label-${q.id}-${optIdx}" class="touch-option flex items-start gap-2.5 p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:border-purple-300 active:bg-purple-50 cursor-pointer select-none">
                   <input type="checkbox" name="q_${q.id}" value="${optIdx}" onchange="handleSelectCheckbox(${q.id}, ${optIdx})"
-                    class="mt-0.5 w-4 h-4 text-purple-600 rounded focus:ring-purple-500 border-slate-300">
-                  <span class="text-xs sm:text-sm text-slate-700 group-hover:text-slate-900 leading-snug">
-                    <span class="font-bold text-slate-400 mr-1.5">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+                    class="mt-0.5 w-4 h-4 text-purple-600 rounded focus:ring-purple-500 border-slate-300 flex-shrink-0">
+                  <span class="text-xs sm:text-sm text-slate-700 leading-snug">
+                    <strong class="text-slate-400 mr-1">${String.fromCharCode(65 + optIdx)}.</strong> ${opt}
                   </span>
                 </label>
               `).join('')}
@@ -796,11 +829,11 @@
         } else if (q.type === 'essay') {
           bodyHtml = `
             <div>
-              <textarea id="essay_${q.id}" oninput="handleEssayInput(${q.id}, this.value)" rows="4" placeholder="${q.placeholder}"
-                class="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition leading-relaxed"></textarea>
-              <div class="flex justify-between items-center text-[11px] text-slate-400 mt-1.5">
-                <span>Rujukan teks dari buku materi</span>
-                <span id="char-count-${q.id}">0 karakter</span>
+              <textarea id="essay_${q.id}" oninput="handleEssayInput(${q.id}, this.value)" rows="3" placeholder="${q.placeholder}"
+                class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition leading-relaxed placeholder:text-slate-400"></textarea>
+              <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1">
+                <span>Berdasarkan materi buku</span>
+                <span id="char-count-${q.id}" class="font-mono">0 karakter</span>
               </div>
             </div>
           `;
@@ -817,6 +850,22 @@
     function handleSelectAnswer(questionId, val) {
       playTone(520, 'sine', 0.08);
       studentAnswers[questionId] = parseInt(val);
+      
+      // Update visual style pada opsi radio
+      const q = questionsData.find(item => item.id === questionId);
+      if (q) {
+        q.options.forEach((_, idx) => {
+          const lbl = document.getElementById(`opt-label-${questionId}-${idx}`);
+          if (lbl) {
+            if (idx === val) {
+              lbl.classList.add('option-selected-radio');
+            } else {
+              lbl.classList.remove('option-selected-radio');
+            }
+          }
+        });
+      }
+
       highlightActiveCard(questionId);
       updateProgress();
       renderNavBubbles();
@@ -829,14 +878,20 @@
       }
       val = parseInt(val);
       const idx = studentAnswers[questionId].indexOf(val);
+      const lbl = document.getElementById(`opt-label-${questionId}-${val}`);
+
       if (idx > -1) {
         studentAnswers[questionId].splice(idx, 1);
+        if (lbl) lbl.classList.remove('option-selected-check');
       } else {
         studentAnswers[questionId].push(val);
+        if (lbl) lbl.classList.add('option-selected-check');
       }
+
       if (studentAnswers[questionId].length === 0) {
         delete studentAnswers[questionId];
       }
+
       highlightActiveCard(questionId);
       updateProgress();
       renderNavBubbles();
@@ -872,7 +927,10 @@
       if (bar) bar.style.width = `${pct}%`;
 
       const badge = document.getElementById('answered-badge');
-      if (badge) badge.innerText = `${answered} / ${total} Terjawab (${pct}%)`;
+      if (badge) badge.innerText = `${answered} / ${total} Diisi`;
+
+      const navBadge = document.getElementById('nav-count-badge');
+      if (navBadge) navBadge.innerText = `${answered}/${total}`;
     }
 
     function renderNavBubbles() {
@@ -885,10 +943,10 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.innerText = idx + 1;
-        btn.className = `h-10 rounded-xl font-bold text-xs flex items-center justify-center transition ${
+        btn.className = `h-10 rounded-xl font-bold text-xs flex items-center justify-center transition active:scale-95 ${
           isAnswered 
-            ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-200' 
-            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-200 font-extrabold' 
+            : 'bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300'
         }`;
         btn.onclick = () => {
           scrollToQuestion(q.id);
@@ -901,7 +959,9 @@
     function scrollToQuestion(qid) {
       const el = document.getElementById(`card-q-${qid}`);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const yOffset = -70; // Offset agar tidak tertutup header sticky
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }
 
@@ -913,12 +973,12 @@
     function showToast(message, isError = false) {
       const toast = document.getElementById('custom-toast');
       toast.innerText = message;
-      toast.className = `fixed bottom-6 right-6 z-50 transform transition-all duration-300 flex items-center gap-3 px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white ${
+      toast.className = `fixed top-4 inset-x-4 sm:inset-x-auto sm:right-6 sm:top-6 z-50 transform transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 px-4 py-2.5 rounded-xl shadow-xl text-xs sm:text-sm font-bold text-white text-center ${
         isError ? 'bg-red-600 shadow-red-200' : 'bg-slate-900 shadow-slate-300'
       }`;
-      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.remove('-translate-y-20', 'opacity-0');
       setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.add('-translate-y-20', 'opacity-0');
       }, 3500);
     }
 
@@ -943,22 +1003,6 @@
       };
     }
 
-    function resetFormConfirmation() {
-      showConfirmModal(
-        "Reset Semua Jawaban?",
-        "Seluruh jawaban soal nomor 1 sampai 30 serta biodata akan dihapus dan dikembalikan ke awal.",
-        () => {
-          studentAnswers = {};
-          document.getElementById('student_name').value = '';
-          document.getElementById('student_nisn').value = '';
-          document.getElementById('student_class').value = '';
-          document.getElementById('student_absent').value = '';
-          renderQuestions();
-          showToast("Formulir telah direset bersih.");
-        }
-      );
-    }
-
     function submitAssessment() {
       const name = document.getElementById('student_name').value.trim();
       const nisn = document.getElementById('student_nisn').value.trim();
@@ -967,8 +1011,10 @@
 
       // Form validation
       if (!name || !nisn || !sClass || !absent) {
-        showToast("Mohon lengkapi identitas diri siswa terlebih dahulu!", true);
-        document.getElementById('section-identity').scrollIntoView({ behavior: 'smooth' });
+        showToast("Lengkapi nama, NISN, kelas, dan absen dulu!", true);
+        const secId = document.getElementById('section-identity');
+        const y = secId.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
         return;
       }
 
@@ -978,13 +1024,13 @@
       if (answeredCount < totalQuestions) {
         showConfirmModal(
           "Masih Ada Soal Kosong",
-          `Anda baru menyelesaikan ${answeredCount} dari ${totalQuestions} soal. Yakin ingin mengirimkan asesmen sekarang?`,
+          `Baru terisi ${answeredCount} dari ${totalQuestions} soal. Yakin ingin mengumpulkan sekarang?`,
           () => processEvaluation(name, sClass, nisn, absent)
         );
       } else {
         showConfirmModal(
           "Kirim Jawaban Asesmen",
-          "Jawaban akan diperiksa dan nilai Anda akan langsung dihitung. Pastikan semua telah diperiksa.",
+          "Jawaban akan diperiksa dan nilai Anda langsung dihitung. Pastikan semua telah sesuai.",
           () => processEvaluation(name, sClass, nisn, absent)
         );
       }
@@ -1003,16 +1049,16 @@
           if (isCorrect) correctCount++;
 
           reviewHtml += `
-            <div class="p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
+            <div class="p-3 sm:p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
               <div class="flex items-center justify-between font-bold mb-1">
                 <span>Soal ${idx + 1} (${q.category})</span>
                 <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isCorrect ? '✓ Benar' : '✗ Belum Tepat'}</span>
               </div>
-              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
-              <div class="space-y-1 text-xs">
+              <p class="text-slate-800 font-medium mb-1.5 leading-snug">${q.question}</p>
+              <div class="space-y-0.5 text-xs">
                 <p><span class="font-bold">Jawaban Anda:</span> ${studentAns !== undefined ? String.fromCharCode(65 + studentAns) + '. ' + q.options[studentAns] : '<i class="text-rose-500">Tidak Dijawab</i>'}</p>
-                <p><span class="font-bold text-emerald-800">Kunci Jawaban Buku:</span> ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</p>
-                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar Materi:</span> ${q.explanation}</p>
+                <p><span class="font-bold text-emerald-800">Kunci Buku:</span> ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar:</span> ${q.explanation}</p>
               </div>
             </div>
           `;
@@ -1028,16 +1074,16 @@
           const correctAnsText = correctArr.map(i => String.fromCharCode(65 + i)).join(', ');
 
           reviewHtml += `
-            <div class="p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
+            <div class="p-3 sm:p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
               <div class="flex items-center justify-between font-bold mb-1">
-                <span>Soal ${idx + 1} (Pilihan Ganda Kompleks: ${q.category})</span>
+                <span>Soal ${idx + 1} (Pilihan Kompleks)</span>
                 <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isCorrect ? '✓ Benar Semua' : '✗ Kurang Tepat'}</span>
               </div>
-              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
-              <div class="space-y-1 text-xs">
+              <p class="text-slate-800 font-medium mb-1.5 leading-snug">${q.question}</p>
+              <div class="space-y-0.5 text-xs">
                 <p><span class="font-bold">Pilihan Anda:</span> ${userAnsText}</p>
-                <p><span class="font-bold text-emerald-800">Kunci Opsi Benar:</span> ${correctAnsText}</p>
-                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar Materi:</span> ${q.explanation}</p>
+                <p><span class="font-bold text-emerald-800">Kunci Benar:</span> ${correctAnsText}</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar:</span> ${q.explanation}</p>
               </div>
             </div>
           `;
@@ -1046,15 +1092,15 @@
           if (isCorrect) correctCount++;
 
           reviewHtml += `
-            <div class="p-4 rounded-xl border text-xs sm:text-sm border-blue-200 bg-blue-50/40">
+            <div class="p-3 sm:p-4 rounded-xl border text-xs sm:text-sm border-blue-200 bg-blue-50/40">
               <div class="flex items-center justify-between font-bold mb-1">
-                <span>Soal ${idx + 1} (Esai Pemahaman: ${q.category})</span>
-                <span class="text-blue-700">✓ Telah Diberikan Poin Telaah</span>
+                <span>Soal ${idx + 1} (Esai)</span>
+                <span class="text-blue-700">✓ Poin Telaah Diterima</span>
               </div>
-              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
-              <div class="space-y-1 text-xs">
+              <p class="text-slate-800 font-medium mb-1.5 leading-snug">${q.question}</p>
+              <div class="space-y-0.5 text-xs">
                 <p class="text-slate-700"><span class="font-bold">Jawaban Anda:</span> "${studentAns || 'Belum diisi'}"</p>
-                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Kunci/Pedoman Jawaban:</span> ${q.explanation}</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Rujukan Materi:</span> ${q.explanation}</p>
               </div>
             </div>
           `;
@@ -1088,9 +1134,9 @@
       });
 
       playTone(587.33, 'triangle', 0.2);
-      setTimeout(() => playTone(880, 'triangle', 0.4), 160);
+      setTimeout(() => playTone(880, 'triangle', 0.3), 160);
 
-      document.getElementById('res-student-info').innerText = `${name} • ${sClass} • No. Absen ${absent} • NISN: ${nisn}`;
+      document.getElementById('res-student-info').innerText = `${name} • ${sClass} • Absen ${absent} • NISN: ${nisn}`;
       document.getElementById('res-score').innerText = finalScore;
       document.getElementById('res-correct').innerText = `${correctCount}/${questionsData.length}`;
       document.getElementById('res-grade').innerText = grade;
@@ -1116,17 +1162,10 @@
       const syncStatus = document.getElementById('sync-status');
       if (!syncStatus) return;
 
-      if (!SCRIPT_URL || SCRIPT_URL.includes("CONTOH_DEPLOYMENT_ID")) {
-        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-amber-500/30 text-[11px] font-semibold tracking-wide text-amber-100";
-        syncStatus.innerHTML = `⚠️ Belum memasang URL Apps Script (Nilai tersimpan lokal di peramban)`;
-        return;
-      }
-
-      syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-white/20 text-[11px] font-semibold tracking-wide";
-      syncStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Mengirim data ke Google Spreadsheet...`;
+      syncStatus.className = "inline-flex items-center gap-1 px-2.5 py-0.5 mt-2 rounded-full bg-white/20 text-[10px] font-semibold";
+      syncStatus.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Mengirim ke Spreadsheet...`;
 
       try {
-        // Menggunakan mode 'no-cors' dan 'text/plain' agar kompatibel dengan GitHub Pages & Google Apps Script
         await fetch(SCRIPT_URL, {
           method: "POST",
           mode: "no-cors",
@@ -1136,12 +1175,12 @@
           body: JSON.stringify(payload)
         });
 
-        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-emerald-500/30 text-[11px] font-semibold tracking-wide text-emerald-100";
-        syncStatus.innerHTML = `✓ Berhasil tersimpan di Google Spreadsheet`;
+        syncStatus.className = "inline-flex items-center gap-1 px-2.5 py-0.5 mt-2 rounded-full bg-emerald-500/30 text-[10px] font-semibold text-emerald-100";
+        syncStatus.innerHTML = `✓ Tersimpan di Spreadsheet`;
       } catch (err) {
         console.error("Gagal sinkronisasi:", err);
-        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-rose-500/30 text-[11px] font-semibold tracking-wide text-rose-100";
-        syncStatus.innerHTML = `✗ Gagal mengirim ke Spreadsheet (Periksa koneksi)`;
+        syncStatus.className = "inline-flex items-center gap-1 px-2.5 py-0.5 mt-2 rounded-full bg-rose-500/30 text-[10px] font-semibold text-rose-100";
+        syncStatus.innerHTML = `✗ Gagal kirim (Cek koneksi)`;
       }
     }
 
