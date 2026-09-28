@@ -1,521 +1,1174 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Soal Essay – PKn Kelas VIII</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
-<style>
-:root {
-  --bg:       #0d1b2a;
-  --surface:  #132338;
-  --card:     #1a3050;
-  --border:   rgba(255,255,255,.07);
-  --gold:     #f5c842;
-  --red:      #e05252;
-  --white:    #f0f4f8;
-  --muted:    #8ba0b8;
-  --teal:     #34d4b0;
-  --sky:      #60b4f0;
-  --radius:   18px;
-  --font:     'Plus Jakarta Sans', sans-serif;
-  --display:  'Fraunces', serif;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--white);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ── BG MESH ── */
-body::before {
-  content:'';
-  position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(245,200,66,.09) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 85% 70%, rgba(52,212,176,.08) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 100%, rgba(96,180,240,.06) 0%, transparent 55%);
-}
-
-.page { position:relative; z-index:1; max-width:880px; margin:0 auto; padding:40px 20px 80px; }
-
-/* ── HEADER ── */
-header { text-align:center; margin-bottom:48px; animation: popIn .8s cubic-bezier(.34,1.56,.64,1) both; }
-
-.flag-strip {
-  display:inline-flex; gap:0; border-radius:999px; overflow:hidden;
-  margin-bottom:18px; box-shadow: 0 0 0 3px rgba(255,255,255,.1);
-}
-.flag-strip span { display:block; width:36px; height:12px; }
-.flag-strip .red  { background:#ce1126; }
-.flag-strip .white{ background:#fff; }
-
-.kop {
-  font-size:.72rem; letter-spacing:.18em; color:var(--gold);
-  text-transform:uppercase; font-weight:700; margin-bottom:12px;
-}
-
-header h1 {
-  font-family: var(--display);
-  font-size: clamp(2rem,6vw,3.4rem);
-  font-weight:900; line-height:1.1;
-  color: var(--white);
-}
-header h1 span {
-  font-style:italic; color:var(--gold);
-}
-
-.sub-header {
-  margin-top:14px; font-size:.9rem; color:var(--muted);
-  display:flex; flex-wrap:wrap; justify-content:center; gap:6px 18px;
-}
-.sub-header b { color:var(--white); }
-
-/* ── INFO STRIP ── */
-.info-strip {
-  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
-  margin-bottom:36px;
-  animation: fadeUp .5s .15s both;
-}
-.pill {
-  display:flex; align-items:center; gap:7px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:999px; padding:8px 16px;
-  font-size:.82rem; font-weight:700; color:var(--white);
-}
-.pill .dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
-.pill .dot.gold   { background:var(--gold); }
-.pill .dot.teal   { background:var(--teal); }
-.pill .dot.red    { background:var(--red); }
-.pill .dot.sky    { background:var(--sky); }
-
-/* ── DIVIDER ── */
-.divider {
-  display:flex; align-items:center; gap:14px;
-  margin:32px 0 22px;
-  animation: fadeUp .5s both;
-}
-.divider::before,.divider::after {
-  content:''; flex:1; height:1px;
-  background:linear-gradient(90deg, transparent, var(--border), transparent);
-}
-.divider-label {
-  font-size:.7rem; letter-spacing:.15em; color:var(--muted);
-  text-transform:uppercase; font-weight:700; white-space:nowrap;
-}
-
-/* ── SECTION HEADERS ── */
-.section-title {
-  font-family:var(--display); font-size:1.15rem; font-weight:700;
-  color:var(--gold); margin-bottom:18px;
-  display:flex; align-items:center; gap:10px;
-}
-.section-title::before {
-  content:''; width:4px; height:1.2em; border-radius:2px;
-  background:linear-gradient(180deg,var(--gold),var(--teal));
-}
-
-/* ── QUESTION CARD ── */
-.q-card {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:0;
-  margin-bottom:16px;
-  overflow:hidden;
-  transition:transform .2s, box-shadow .2s;
-  animation:fadeUp .5s both;
-}
-.q-card:hover {
-  transform:translateY(-3px);
-  box-shadow:0 14px 36px rgba(0,0,0,.3);
-}
-
-.q-top {
-  display:flex; align-items:stretch; gap:0;
-}
-
-.q-num-col {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  min-width:62px; padding:20px 14px;
-  border-right:1px solid var(--border);
-  background:var(--card);
-}
-.q-num {
-  font-family:var(--display); font-size:1.6rem; font-weight:900; line-height:1;
-}
-.q-tag {
-  font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
-  margin-top:4px; font-weight:700; opacity:.6;
-}
-
-.q-body { padding:20px 22px; flex:1; }
-
-.q-type-badge {
-  display:inline-block; font-size:.65rem; letter-spacing:.1em;
-  text-transform:uppercase; font-weight:800;
-  padding:3px 10px; border-radius:999px; margin-bottom:10px;
-}
-.badge-fact    { background:rgba(96,180,240,.15); color:var(--sky); }
-.badge-analisis{ background:rgba(245,200,66,.15);  color:var(--gold); }
-.badge-opini   { background:rgba(52,212,176,.15);  color:var(--teal); }
-.badge-hafalan { background:rgba(224,82,82,.15);   color:var(--red); }
-
-.q-text {
-  font-size:.95rem; line-height:1.75; color:var(--white);
-  font-weight:500;
-}
-.q-text strong { color:var(--gold); }
-
-.q-footer {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 22px 14px;
-  border-top:1px solid var(--border);
-  background:rgba(0,0,0,.1);
-}
-.q-points {
-  font-size:.78rem; color:var(--muted); font-weight:700;
-  display:flex; align-items:center; gap:6px;
-}
-.q-points .stars { color:var(--gold); }
-
-.q-hint {
-  font-size:.72rem; color:var(--muted); font-style:italic;
-}
-
-/* ── COLOR CODED NUMS ── */
-.n1,.n2,.n7,.n8 { color:var(--sky); }
-.n3,.n5,.n9,.n10{ color:var(--gold); }
-.n4,.n6         { color:var(--red); }
-
-/* ── ANSWER BOX HINT ── */
-.answer-area {
-  margin:10px 22px 18px;
-  background:rgba(255,255,255,.03);
-  border:1px dashed rgba(255,255,255,.1);
-  border-radius:10px; padding:12px 16px;
-  font-size:.82rem; color:rgba(255,255,255,.25);
-  font-style:italic; text-align:center;
-  pointer-events:none;
-}
-
-/* ── TOTAL SCORE ── */
-.score-bar {
-  background:linear-gradient(135deg, #1e3a5f, #0f2840);
-  border:1px solid rgba(245,200,66,.25);
-  border-radius:var(--radius);
-  padding:24px 28px;
-  display:flex; flex-wrap:wrap; align-items:center;
-  justify-content:space-between; gap:14px;
-  margin:36px 0;
-  animation: fadeUp .5s .5s both;
-}
-.score-bar h3 {
-  font-family:var(--display); font-size:1.1rem; color:var(--gold);
-}
-.score-bar p { font-size:.85rem; color:var(--muted); margin-top:4px; }
-.total-num {
-  font-family:var(--display); font-size:2.6rem; font-weight:900;
-  background:linear-gradient(135deg,var(--gold),#ffaa00);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  line-height:1;
-}
-.total-label { font-size:.75rem; color:var(--muted); text-align:right; font-weight:700; }
-
-/* ── KETENTUAN ── */
-.rules-grid {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:12px; margin-bottom:28px;
-  animation:fadeUp .5s .45s both;
-}
-@media(max-width:540px){ .rules-grid{ grid-template-columns:1fr; } }
-
-.rule {
-  display:flex; gap:12px; align-items:flex-start;
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:14px; padding:14px 16px;
-  font-size:.85rem; line-height:1.55;
-}
-.rule-icon { font-size:1.2rem; flex-shrink:0; margin-top:1px; }
-.rule strong { display:block; color:var(--white); font-weight:700; margin-bottom:2px; }
-.rule span { color:var(--muted); }
-
-/* ── FOOTER ── */
-footer {
-  text-align:center; margin-top:50px;
-  animation:fadeUp .5s .6s both;
-}
-.footer-bar {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--radius); padding:22px 28px;
-  display:flex; flex-wrap:wrap; align-items:center;
-  justify-content:space-between; gap:12px;
-}
-.footer-bar p { font-size:.82rem; color:var(--muted); }
-.footer-bar p strong { color:var(--white); }
-.good-luck {
-  display:inline-flex; align-items:center; gap:8px;
-  background:linear-gradient(135deg,var(--gold),#e6a800);
-  color:#1a1000; font-weight:800; font-size:.85rem;
-  padding:8px 20px; border-radius:999px;
-  white-space:nowrap;
-}
-
-/* ── ANIMATIONS ── */
-@keyframes popIn {
-  from { opacity:0; transform:scale(.9) translateY(-20px); }
-  to   { opacity:1; transform:scale(1)  translateY(0); }
-}
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(22px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-
-.q-card:nth-child(1)  { animation-delay:.1s }
-.q-card:nth-child(2)  { animation-delay:.15s }
-.q-card:nth-child(3)  { animation-delay:.2s }
-.q-card:nth-child(4)  { animation-delay:.25s }
-.q-card:nth-child(5)  { animation-delay:.3s }
-.q-card:nth-child(6)  { animation-delay:.35s }
-.q-card:nth-child(7)  { animation-delay:.38s }
-.q-card:nth-child(8)  { animation-delay:.42s }
-.q-card:nth-child(9)  { animation-delay:.45s }
-.q-card:nth-child(10) { animation-delay:.48s }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asesmen Pendidikan Pancasila Kelas 9: Hak dan Kewajiban Warga Negara (UUD NRI 1945)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f1f5f9;
+    }
+    .custom-shadow {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    }
+    .accent-border {
+      border-top: 8px solid #dc2626;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff;
+      }
+    }
+  </style>
 </head>
-<body>
-<div class="page">
+<body class="text-slate-800 antialiased min-h-screen pb-20">
 
-  <!-- HEADER -->
-  <header>
-    <div class="flag-strip"><span class="red"></span><span class="white"></span></div>
-    <div class="kop">🏛️ Pendidikan Kewarganegaraan &nbsp;·&nbsp; SMP Kelas VIII</div>
-    <h1>Soal <span>Essay</span><br>NKRI & Kebangsaan</h1>
-    <div class="sub-header">
-      <span>Mata Pelajaran: <b>PKn</b></span>
-      <span>Kelas: <b>VIII</b></span>
-      <span>Sifat: <b>Open Book</b></span>
-      <span>Waktu: <b>90 menit</b></span>
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white font-black shadow-md shadow-red-200 text-lg">
+          PP
+        </div>
+        <div>
+          <h1 class="font-bold text-xs sm:text-base text-slate-800 leading-tight">ASESMEN PENDIDIKAN PANCASILA KELAS IX</h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium">UUD NRI Tahun 1945 • 30 Butir Soal Tingkat Menengah Atas/SMP</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2 sm:gap-4">
+        <div class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full text-slate-700 font-bold text-xs sm:text-sm border border-slate-200">
+          <svg class="w-4 h-4 text-red-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+            <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
+          </svg>
+          <span id="exam-timer">60:00</span>
+        </div>
+
+        <button onclick="toggleQuickNavModal()" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-red-50 text-red-700 hover:bg-red-100 transition flex items-center gap-1.5 border border-red-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+          </svg>
+          <span>Peta Soal (1-30)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Real-time Progress Bar -->
+    <div class="w-full bg-slate-200 h-1.5">
+      <div id="progress-bar" class="bg-gradient-to-r from-red-500 via-rose-500 to-red-600 h-1.5 w-0 transition-all duration-300"></div>
     </div>
   </header>
 
-  <!-- PILLS INFO -->
-  <div class="info-strip">
-    <div class="pill"><span class="dot gold"></span>10 Soal Essay</div>
-    <div class="pill"><span class="dot teal"></span>Materi: NKRI & Nasionalisme</div>
-    <div class="pill"><span class="dot sky"></span>Jawab semua soal</div>
-    <div class="pill"><span class="dot red"></span>Total Nilai: 100</div>
-  </div>
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
 
-  <!-- KETENTUAN -->
-  <div class="section-title">📋 Petunjuk Mengerjakan</div>
-  <div class="rules-grid">
-    <div class="rule"><span class="rule-icon">✍️</span><div><strong>Tulis lengkap identitas</strong><span>Nama, kelas, dan tanggal di pojok kanan atas lembar jawaban</span></div></div>
-    <div class="rule"><span class="rule-icon">💡</span><div><strong>Gunakan bahasa sendiri</strong><span>Jawab dengan bahasamu sendiri, hindari menyalin kata per kata dari buku</span></div></div>
-    <div class="rule"><span class="rule-icon">📊</span><div><strong>Perhatikan poin soal</strong><span>Soal analisis & opini memiliki bobot lebih besar — beri jawaban lebih detail</span></div></div>
-    <div class="rule"><span class="rule-icon">🔍</span><div><strong>Baca soal dengan cermat</strong><span>Terutama soal nomor 3, 5, 9, dan 10 yang membutuhkan analisis mendalam</span></div></div>
-  </div>
+    <!-- Assessment Cover Banner -->
+    <div class="bg-white rounded-2xl custom-shadow overflow-hidden accent-border border border-slate-200/80">
+      <div class="bg-gradient-to-r from-red-700 via-rose-800 to-red-900 p-6 sm:p-8 text-white relative">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold tracking-wide uppercase mb-3 backdrop-blur-sm">
+          Kurikulum Pendidikan Pancasila SMP/MTs Kelas IX
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">Asesmen Analitis: Hak dan Kewajiban Warga Negara (UUD NRI 1945)</h2>
+        <p class="text-red-100 text-xs sm:text-sm mt-2 leading-relaxed max-w-2xl">
+          Pendalaman materi Buku Ajar Kelas IX: <strong>Pasal 27–34 UUD NRI Tahun 1945</strong>, UU No. 39 Tahun 1999 (HAM), serta telaah kritis atas Pelanggaran Hak dan Pengingkaran Kewajiban Warga Negara.
+        </p>
+      </div>
 
-  <!-- DIVIDER -->
-  <div class="divider"><span class="divider-label">Bagian I — Fakta & Pemahaman</span></div>
-  <div class="section-title">📖 Soal Nomor 1–2 · Fakta Sejarah</div>
-
-  <!-- Q1 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n1">1</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-fact">Fakta Sejarah</span>
-        <p class="q-text">Jelaskan secara singkat <strong>proses ditetapkannya Negara Kesatuan Republik Indonesia (NKRI)</strong> pada tanggal <strong>18 Agustus 1945</strong>! Siapa lembaga yang menetapkan dan apa dasar hukumnya?</p>
+      <div class="p-4 sm:p-5 bg-amber-50 border-t border-amber-200 text-xs sm:text-sm text-amber-900 flex items-start gap-3">
+        <span class="text-lg">📋</span>
+        <div class="space-y-1">
+          <p class="font-bold">Struktur Asesmen (Total 30 Soal):</p>
+          <ul class="list-disc list-inside space-y-0.5 text-amber-800">
+            <li><strong>Nomor 1 - 20:</strong> Pilihan Ganda Biasa (Pilih 1 opsi yang paling benar).</li>
+            <li><strong>Nomor 21 - 28:</strong> Pilihan Ganda Kompleks (Centang 2 atau lebih opsi yang benar).</li>
+            <li><strong>Nomor 29 - 30:</strong> Pertanyaan Refleksi & Pemahaman Esai.</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
-      <div class="q-hint">Sebutkan: lembaga, tanggal, dan dasar hukum</div>
-    </div>
-  </div>
 
-  <!-- Q2 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n2">2</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-fact">Fakta Sejarah</span>
-        <p class="q-text">Kapan Indonesia sempat berubah menjadi <strong>negara serikat (federal)</strong> dan apa penyebab perubahan tersebut? Kapan Indonesia <strong>kembali ke bentuk negara kesatuan</strong>?</p>
+    <!-- Student Bio Card -->
+    <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-200/80 space-y-4" id="section-identity">
+      <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+        <span class="w-7 h-7 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-sm">A</span>
+        <h3 class="text-base font-bold text-slate-800">Identitas Peserta Didik</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Nama Lengkap Siswa <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="student_name" placeholder="Masukkan nama lengkap Anda..." 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Nomor Induk Siswa Nasional (NISN) <span class="text-red-500">*</span>
+          </label>
+          <input type="number" id="student_nisn" placeholder="10 Digit NISN" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Rombongan Belajar (Kelas) <span class="text-red-500">*</span>
+          </label>
+          <select id="student_class" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition font-medium">
+            <option value="">-- Pilih Rombel Kelas IX --</option>
+            <option value="9-A">Kelas 9-A</option>
+            <option value="9-B">Kelas 9-B</option>
+            <option value="9-C">Kelas 9-C</option>
+            <option value="9-D">Kelas 9-D</option>
+            <option value="9-E">Kelas 9-E</option>
+            <option value="9-F">Kelas 9-F</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Nomor Presensi (Absen) <span class="text-red-500">*</span>
+          </label>
+          <input type="number" id="student_absent" min="1" max="45" placeholder="Contoh: 15" 
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+        </div>
       </div>
     </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
-      <div class="q-hint">Sebutkan tahun, penyebab, dan tanggal kembali ke NKRI</div>
+
+    <!-- Questions Container -->
+    <div id="questions-container" class="space-y-5">
+      <!-- 30 Questions rendered dynamically via JavaScript -->
     </div>
-  </div>
 
-  <!-- DIVIDER -->
-  <div class="divider"><span class="divider-label">Bagian II — Analisis & Pasal UUD</span></div>
-  <div class="section-title">🔎 Soal Nomor 3–5 · Analisis Mendalam</div>
+    <!-- Submission Floating / Action Bar -->
+    <div class="bg-white rounded-2xl p-5 sm:p-6 custom-shadow border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 no-print sticky bottom-4 z-30">
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+        <button type="button" onclick="resetFormConfirmation()" class="text-xs font-bold text-slate-500 hover:text-red-600 transition">
+          Reset Jawaban
+        </button>
+        <span class="text-slate-300">|</span>
+        <span class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg" id="answered-badge">0 / 30 Terjawab</span>
+      </div>
 
-  <!-- Q3 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n3">3</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-analisis">Analisis</span>
-        <p class="q-text">Berdasarkan materi, Indonesia pernah <strong>berganti-ganti bentuk negara</strong> (kesatuan dan serikat) akibat perubahan undang-undang dasar. Analisislah mengapa perubahan bentuk negara tersebut bisa terjadi dan <strong>apa dampaknya terhadap kedaulatan dan persatuan bangsa Indonesia</strong> saat itu!</p>
+      <button type="button" id="submit-btn" onclick="submitAssessment()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold text-sm shadow-lg shadow-red-200 transition flex items-center justify-center gap-2">
+        <span id="submit-btn-text">Selesai & Kumpulkan Jawaban</span>
+        <svg id="submit-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Result & Score Modal -->
+  <div id="result-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+      <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 p-6 text-white text-center">
+        <h3 class="text-xl sm:text-2xl font-extrabold">Hasil Evaluasi Belajar Siswa</h3>
+        <p class="text-red-100 text-xs sm:text-sm mt-1" id="res-student-info">Peserta Didik</p>
+        <div id="sync-status" class="inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-white/20 text-[11px] font-semibold tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          Menghubungkan ke Google Spreadsheet...
+        </div>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6">
+        <!-- Scores Grid -->
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <span class="block text-xs font-bold text-blue-600 uppercase">Nilai Akhir</span>
+            <span class="text-3xl sm:text-4xl font-black text-blue-700" id="res-score">0</span>
+          </div>
+          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+            <span class="block text-xs font-bold text-emerald-600 uppercase">Tuntas / Benar</span>
+            <span class="text-3xl sm:text-4xl font-black text-emerald-700" id="res-correct">0/30</span>
+          </div>
+          <div class="p-4 bg-amber-50 rounded-xl border border-amber-200">
+            <span class="block text-xs font-bold text-amber-700 uppercase">Kualifikasi</span>
+            <span class="text-sm sm:text-base font-black text-amber-800 mt-2 block" id="res-grade">-</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm mb-3">Rangkuman Kunci & Pembahasan Berdasarkan Buku Teks</h4>
+          <div id="review-list" class="space-y-3">
+            <!-- Review items dynamically generated -->
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3">
+        <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs sm:text-sm flex items-center gap-2 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Cetak Hasil
+        </button>
+
+        <button onclick="closeResultModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs sm:text-sm transition">
+          Tutup & Kembali
+        </button>
       </div>
     </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★★</span> 12 poin</div>
-      <div class="q-hint">Sebab perubahan + dampak terhadap kedaulatan & persatuan</div>
-    </div>
   </div>
 
-  <!-- Q4 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n4">4</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-hafalan">Hafalan</span>
-        <p class="q-text">Sebutkan <strong>tiga pasal dalam UUD NRI Tahun 1945</strong> yang menjadi dasar bentuk Negara Kesatuan Republik Indonesia setelah masa Reformasi, serta tuliskan <strong>bunyi atau inti sari</strong> dari masing-masing pasal tersebut!</p>
+  <!-- Quick Nav Grid Modal -->
+  <div id="quick-nav-modal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-md rounded-2xl p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 class="font-bold text-slate-800 text-sm">Peta Nomor Soal (1 s/d 30)</h3>
+        <button onclick="toggleQuickNavModal()" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="grid grid-cols-6 sm:grid-cols-6 gap-2 max-h-72 overflow-y-auto p-1" id="nav-bubbles-container">
+        <!-- Bubbles injected -->
+      </div>
+      <div class="flex items-center justify-center gap-4 text-[11px] text-slate-500 pt-2 border-t border-slate-100">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span> Sudah Diisi</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-200 inline-block"></span> Belum Diisi</span>
       </div>
     </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★★</span> 12 poin</div>
-      <div class="q-hint">Pasal → Bunyi/Inti sari (3 pasal)</div>
-    </div>
   </div>
 
-  <!-- Q5 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n5">5</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-opini">Opini & Analisis</span>
-        <p class="q-text"><strong>Pasal 37 Ayat (5) UUD NRI Tahun 1945</strong> menyatakan bahwa bentuk Negara Kesatuan Republik Indonesia tidak dapat diubah. Menurut pendapat Anda, mengapa ketentuan ini sangat penting untuk dijaga? Berikan argumen dengan <strong>mengaitkan pada karakteristik Indonesia sebagai negara kepulauan yang beragam budaya</strong>!</p>
+  <!-- Custom Confirmation Dialog Modal -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl text-center space-y-4">
+      <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
       </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★★★</span> 14 poin</div>
-      <div class="q-hint">Argumen kuat + kaitkan dengan kondisi geografis & budaya Indonesia</div>
-    </div>
-  </div>
-
-  <!-- DIVIDER -->
-  <div class="divider"><span class="divider-label">Bagian III — Nasionalisme & Toleransi</span></div>
-  <div class="section-title">🇮🇩 Soal Nomor 6–10 · Nilai Kebangsaan</div>
-
-  <!-- Q6 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n6">6</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-hafalan">Pemahaman Konsep</span>
-        <p class="q-text">Jelaskan <strong>perbedaan nasionalisme dalam arti luas</strong> dan <strong>nasionalisme dalam arti sempit</strong> berdasarkan materi!</p>
-      </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
-      <div class="q-hint">Bandingkan dua pengertian secara jelas dan runtut</div>
-    </div>
-  </div>
-
-  <!-- Q7 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n7">7</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-fact">Penerapan</span>
-        <p class="q-text">Sebutkan <strong>tiga contoh penerapan sikap cinta tanah air</strong> dalam kehidupan sehari-hari menurut materi!</p>
-      </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
-      <div class="q-hint">Minimal 3 contoh konkret dari materi</div>
-    </div>
-  </div>
-
-  <!-- Q8 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n8">8</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-fact">Pemahaman</span>
-        <p class="q-text">Apa yang dimaksud dengan <strong>toleransi</strong>? Mengapa toleransi sangat penting bagi Indonesia?</p>
-      </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★</span> 8 poin</div>
-      <div class="q-hint">Definisi + alasan pentingnya bagi Indonesia yang beragam</div>
-    </div>
-  </div>
-
-  <!-- Q9 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n9">9</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-opini">Opini</span>
-        <p class="q-text">Menurut pendapat Anda, <strong>apa yang akan terjadi jika masyarakat Indonesia tidak memiliki sikap toleransi</strong> dalam kehidupan berbangsa dan bernegara? Berikan <strong>minimal dua dampak negatif</strong>!</p>
-      </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★★</span> 10 poin</div>
-      <div class="q-hint">Min. 2 dampak negatif dengan penjelasan yang masuk akal</div>
-    </div>
-  </div>
-
-  <!-- Q10 -->
-  <div class="q-card">
-    <div class="q-top">
-      <div class="q-num-col"><div class="q-num n10">10</div><div class="q-tag">SOAL</div></div>
-      <div class="q-body">
-        <span class="q-type-badge badge-analisis">Analisis & Opini</span>
-        <p class="q-text"><strong>Bandingkan</strong> sikap cinta tanah air dalam arti luas dengan sikap nasionalisme sempit. Manakah yang <strong>lebih sesuai dengan nilai-nilai Pancasila</strong> dan persatuan Indonesia? Berikan alasan!</p>
-      </div>
-    </div>
-    <div class="answer-area">— Ruang jawaban —</div>
-    <div class="q-footer">
-      <div class="q-points"><span class="stars">★★★★</span> 12 poin</div>
-      <div class="q-hint">Bandingkan keduanya → pilih salah satu → beri alasan kuat</div>
-    </div>
-  </div>
-
-  <!-- TOTAL SCORE -->
-  <div class="score-bar">
-    <div>
-      <h3>Rekap Poin Soal</h3>
-      <p>No. 1–2 (8 pt×2) · No. 3–4 (12 pt×2) · No. 5 (14 pt) · No. 6–8 (8 pt×3) · No. 9 (10 pt) · No. 10 (12 pt)</p>
-    </div>
-    <div>
-      <div class="total-num">100</div>
-      <div class="total-label">TOTAL POIN</div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-bar">
       <div>
-        <p><strong>PKn · Kelas VIII · SMP</strong></p>
-        <p>Kerjakan dengan jujur dan sungguh-sungguh · Dilarang bekerjasama</p>
+        <h4 class="font-bold text-slate-800 text-base" id="confirm-title">Konfirmasi</h4>
+        <p class="text-xs text-slate-500 mt-1" id="confirm-desc">Yakin ingin melanjutkan tindakan ini?</p>
       </div>
-      <div class="good-luck">🌟 Selamat Mengerjakan!</div>
+      <div class="flex items-center gap-2 pt-2">
+        <button id="confirm-cancel-btn" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">Batal</button>
+        <button id="confirm-accept-btn" class="w-1/2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-xs font-bold text-white shadow-md shadow-red-200">Lanjutkan</button>
+      </div>
     </div>
-  </footer>
+  </div>
 
-</div>
+  <div id="custom-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl text-sm font-semibold"></div>
+
+  <script>
+    // 30 Soal Berbobot Analisis & Penalaran Kritis (HOTS) Kelas IX
+    // Berdasarkan Buku Teks "PG Pendidikan Pancasila SMP/MTs Kelas IX - 1"
+    const questionsData = [
+      {
+        id: 1,
+        type: "single",
+        category: "Hakikat Kodrati Hak",
+        question: "Teks materi menegaskan bahwa setiap individu telah memiliki hak sejak dilahirkan ke dunia. Berdasarkan prinsip hukum ketatanegaraan dan teks tersebut, implikasi logis dari pernyataan ini adalah...",
+        options: [
+          "Hak seseorang baru diakui secara sah apabila sudah memiliki kartu identitas penduduk dari dinas kependudukan",
+          "Hak asasi bukan merupakan hadiah dari kekuasaan negara, melainkan hak kodrati yang wajib dilindungi oleh hukum dan negara",
+          "Negara memiliki wewenang penuh untuk mencabut seluruh hak seseorang kapan pun dikehendaki",
+          "Seseorang boleh menggunakan haknya secara mutlak tanpa memedulikan hak asasi individu lainnya"
+        ],
+        correct: 1,
+        explanation: "Berdasarkan halaman 47 paragraf 1 dan 2, hak telah dimiliki sejak lahir dan merupakan hak mendasar universal yang bukan pemberian pemerintah melainkan anugerah yang dijamin dan dilindungi oleh UUD NRI 1945."
+      },
+      {
+        id: 2,
+        type: "single",
+        category: "Hierarki Konstitusi",
+        question: "Mengapa UUD NRI Tahun 1945 diposisikan sebagai pedoman hukum tertinggi dalam mengatur kehidupan berbangsa dan bernegara di Indonesia?",
+        options: [
+          "Karena UUD NRI Tahun 1945 merupakan aturan dasar (konstitusi) yang menjadi landasan dan penjamin perlindungan hak serta pemenuhan kewajiban warga negara",
+          "Karena UUD NRI Tahun 1945 hanya memuat sanksi pidana kurungan bagi para pelanggar peraturan daerah",
+          "Karena undang-undang tersebut disusun semata-mata untuk mengatur sistem pemilihan umum lima tahunan",
+          "Karena UUD NRI Tahun 1945 membebaskan seluruh warga negara dari kewajiban membela kedaulatan negara"
+        ],
+        correct: 0,
+        explanation: "Pada teks hal 47 dijelaskan: UUD NRI Tahun 1945 adalah aturan dasar atau konstitusi yang menjadi pedoman hukum yang menegaskan perlindungan penuh negara terhadap hak warga negara."
+      },
+      {
+        id: 3,
+        type: "single",
+        category: "Korelasi HAM & Kewajiban Asasi",
+        question: "Dalam Pasal 1 UU No. 39 Tahun 1999, HAM diartikan sebagai anugerah Tuhan YME yang melekat pada hakikat keberadaan manusia. Teks menegaskan bahwa hak asasi harus dilakukan beriringan dengan kewajiban asasi. Maksud mendasar keterkaitan ini adalah...",
+        options: [
+          "Warga negara boleh menuntut haknya terlebih dahulu dan tidak perlu menunaikan kewajiban jika merasa dirugikan",
+          "Kewajiban asasi merupakan prasyarat mutlak; tanpa pelaksanaan kewajiban asasi, hak asasi mustahil ada dan terlaksana dengan tertib",
+          "Kewajiban asasi hanya berlaku bagi aparatur pemerintah, sedangkan warga sipil hanya berkedudukan sebagai pemilik hak",
+          "Penunaian kewajiban asasi secara otomatis menghilangkan kebebasan berserikat dan berpendapat warga negara"
+        ],
+        correct: 1,
+        explanation: "Teks hal 47 menegaskan: 'Kewajiban asasi adalah seperangkat kewajiban yang apabila tidak dilaksanakan, hak asasi tidak mungkin ada dan terlaksana.'"
+      },
+      {
+        id: 4,
+        type: "single",
+        category: "Analisis Pasal 27 ayat (2)",
+        question: "Pemerintah membuka program pelatihan kerja dan bursa tenaga kerja gratis untuk memfasilitasi lulusan sekolah memasuki dunia industri. Kebijakan ini merupakan wujud nyata implementasi UUD NRI Tahun 1945...",
+        options: [
+          "Pasal 27 ayat (2): Hak atas pekerjaan dan penghidupan yang layak bagi kemanusiaan",
+          "Pasal 28A: Hak mempertahankan kelangsungan hidup",
+          "Pasal 28D ayat (4): Hak atas kepastian status kewarganegaraan",
+          "Pasal 33 ayat (1): Hak menyusun usaha bersama berdasar asas kekeluargaan"
+        ],
+        correct: 0,
+        explanation: "Pasal 27 ayat (2) menyatakan: 'Tiap-tiap warga negara berhak atas pekerjaan dan penghidupan yang layak bagi kemanusiaan.'"
+      },
+      {
+        id: 5,
+        type: "single",
+        category: "Analisis Demokrasi (Pasal 28)",
+        question: "Sekelompok warga membentuk forum musyawarah pemuda di desa dan menyalurkan aspirasi pembangunan desa secara tertulis ke kantor kecamatan secara damai. Kegiatan ini dijamin dalam UUD NRI Tahun 1945...",
+        options: [
+          "Pasal 28: Kemerdekaan berserikat dan berkumpul, mengeluarkan pikiran dengan lisan dan tulisan",
+          "Pasal 28G ayat (2): Hak memperoleh suaka politik dari negara lain",
+          "Pasal 28H ayat (4): Hak memiliki hak milik pribadi yang dilindungi undang-undang",
+          "Pasal 34 ayat (1): Penanganan fakir miskin dan anak-anak terlantar oleh negara"
+        ],
+        correct: 0,
+        explanation: "Pasal 28 UUD NRI 1945 mengatur tentang kemerdekaan berserikat dan berkumpul, serta mengeluarkan pikiran dengan lisan dan tulisan."
+      },
+      {
+        id: 6,
+        type: "single",
+        category: "Perlindungan Generasi (Pasal 28B)",
+        question: "Tindakan perundungan (bullying) dan kekerasan fisik terhadap peserta didik di lingkungan pendidikan bertentangan secara tegas dengan amanat konstitusi pada...",
+        options: [
+          "Pasal 28B ayat (2): Hak setiap anak atas kelangsungan hidup, tumbuh, kembang, serta perlindungan dari kekerasan dan diskriminasi",
+          "Pasal 28C ayat (2): Hak memajukan diri dalam memperjuangkan hak secara kolektif",
+          "Pasal 28D ayat (3): Hak memperoleh kesempatan yang sama dalam pemerintahan",
+          "Pasal 28H ayat (1): Hak bertempat tinggal dan lingkungan hidup yang sehat"
+        ],
+        correct: 0,
+        explanation: "Pasal 28B ayat (2) berbunyi: 'Setiap anak berhak atas kelangsungan hidup, tumbuh, dan berkembang serta berhak atas perlindungan dari kekerasan dan diskriminasi.'"
+      },
+      {
+        id: 7,
+        type: "single",
+        category: "Pengembangan Iptek & Budaya (Pasal 28C)",
+        question: "Pemerintah memberikan beasiswa riset teknologi inovatif kepada peneliti muda Indonesia demi meningkatkan martabat bangsa. Hal ini sejalan dengan pasal konstitusi...",
+        options: [
+          "Pasal 28C ayat (1): Hak mengembangkan diri melalui pemenuhan kebutuhan dasar, pendidikan, ilmu pengetahuan, seni, dan budaya",
+          "Pasal 28D ayat (2): Hak bekerja serta mendapat imbalan dan perlakuan adil dalam hubungan kerja",
+          "Pasal 28E ayat (1): Hak memilih pendidikan dan tempat tinggal",
+          "Pasal 28G ayat (1): Hak perlindungan diri pribadi dan kehormatan keluarga"
+        ],
+        correct: 0,
+        explanation: "Pasal 28C ayat (1) menyatakan setiap orang berhak mengembangkan diri melalui pemenuhan kebutuhan dasarnya, berhak mendapat pendidikan dan memperoleh manfaat dari Iptek, seni, dan budaya."
+      },
+      {
+        id: 8,
+        type: "single",
+        category: "Keadilan Hukum & Kerja (Pasal 28D)",
+        question: "Seorang pekerja pabrik menerima upah jauh di bawah upah minimum yang ditetapkan regulasi serta jam kerja berlebihan tanpa kompensasi lembur. Situasi ini menunjukkan pelanggaran terhadap...",
+        options: [
+          "Pasal 28D ayat (2): Hak untuk bekerja serta mendapat imbalan dan perlakuan yang adil dan layak dalam hubungan kerja",
+          "Pasal 28D ayat (4): Hak setiap orang atas status kewarganegaraan",
+          "Pasal 28E ayat (3): Hak atas kebebasan berserikat dan berkumpul",
+          "Pasal 28F: Hak memperoleh dan mencari informasi menggunakan saluran komunikasi"
+        ],
+        correct: 0,
+        explanation: "Pasal 28D ayat (2) berbunyi: 'Setiap orang berhak untuk bekerja serta mendapat imbalan dan perlakuan yang adil dan layak dalam hubungan kerja.'"
+      },
+      {
+        id: 9,
+        type: "single",
+        category: "Kemerdekaan Berkeyakinan (Pasal 28E)",
+        question: "Penetapan kebijakan yang melarang warga negara menjalankan ibadah keagamaan sesuai dengan keyakinan agamanya secara damai merupakan bentuk pengingkaran terhadap...",
+        options: [
+          "Pasal 28E ayat (1) dan (2): Kebebasan memeluk agama, beribadat menurut agamanya, serta meyakini kepercayaan sesuai hati nurani",
+          "Pasal 28F: Hak untuk berkomunikasi dan mengolah informasi publik",
+          "Pasal 28H ayat (2): Hak kemudahan dan perlakuan khusus untuk mencapai keadilan",
+          "Pasal 31 ayat (1): Hak warga negara mendapat pengajaran formal"
+        ],
+        correct: 0,
+        explanation: "Pasal 28E ayat (1) & (2) menjamin kebebasan setiap orang memeluk agama, beribadat menurut agamanya, meyakini kepercayaan, dan menyatakan pikiran sesuai hati nurani."
+      },
+      {
+        id: 10,
+        type: "single",
+        category: "Keterbukaan Informasi (Pasal 28F)",
+        question: "Seorang jurnalis atau pelajar memanfaatkan internet dan perpustakaan digital untuk meneliti dan menyebarluaskan hasil karya ilmiahnya. Aktivitas tersebut merupakan penerapan konstitusional dari...",
+        options: [
+          "Pasal 28F: Hak berkomunikasi, memperoleh, menyimpan, mengolah, dan menyampaikan informasi dengan saluran yang tersedia",
+          "Pasal 28G ayat (2): Hak terbebas dari penyiksaan dan hak suaka politik",
+          "Pasal 28H ayat (3): Hak atas jaminan sosial yang memungkinkan pengembangan martabat",
+          "Pasal 32 ayat (1): Kewajiban mengembangkan kebudayaan nasional"
+        ],
+        correct: 0,
+        explanation: "Pasal 28F menjamin hak berkomunikasi, mencari, memperoleh, memiliki, menyimpan, mengolah, dan menyampaikan informasi menggunakan segala saluran yang tersedia."
+      },
+      {
+        id: 11,
+        type: "single",
+        category: "Perlindungan Martabat Manusia (Pasal 28G)",
+        question: "Berdasarkan Pasal 28G ayat (1) dan (2), konstitusi negara menjamin setiap orang berhak atas perlindungan diri pribadi, kehormatan, martabat, dan harta benda, serta secara tegas...",
+        options: [
+          "Melarang segala bentuk penyiksaan dan perlakuan yang merendahkan derajat martabat manusia",
+          "Mewajibkan warga negara melepaskan aset miliknya secara cuma-cuma kepada pengusaha asing",
+          "Membatasi warga negara dalam memperoleh suaka politik jika terancam bahaya jiwa",
+          "Mengizinkan aparat melakukan tindakan kekerasan tanpa prosedur peradilan yang sah"
+        ],
+        correct: 0,
+        explanation: "Pasal 28G ayat (2) menyatakan setiap orang berhak untuk bebas dari penyiksaan dan perlakuan yang merendahkan derajat martabat manusia serta berhak memperoleh suaka politik."
+      },
+      {
+        id: 12,
+        type: "single",
+        category: "Hak Lingkungan Hidup Sehat (Pasal 28H)",
+        question: "Pencemaran sungai oleh limbah industri beracun yang merusak sumber air bersih warga desa merupakan pelanggaran hak warga negara yang dijamin dalam konstitusi...",
+        options: [
+          "Pasal 28H ayat (1): Hak hidup sejahtera lahir dan batin, bertempat tinggal, dan mendapatkan lingkungan hidup baik dan sehat",
+          "Pasal 28B ayat (1): Hak membentuk keluarga melalui perkawinan yang sah",
+          "Pasal 28D ayat (1): Hak atas pengakuan dan jaminan kepastian hukum",
+          "Pasal 33 ayat (1): Penataan usaha ekonomi berdasar asas kekeluargaan"
+        ],
+        correct: 0,
+        explanation: "Pasal 28H ayat (1) menegaskan hak hidup sejahtera lahir batin, bertempat tinggal, dan mendapatkan lingkungan hidup yang baik dan sehat serta berhak memperoleh layanan kesehatan."
+      },
+      {
+        id: 13,
+        type: "single",
+        category: "Perlindungan Hak Milik (Pasal 28H)",
+        question: "Apa batasan hukum yang ditegaskan dalam Pasal 28H ayat (4) terkait hak milik pribadi setiap orang?",
+        options: [
+          "Hak milik pribadi boleh disita oleh kelompok mana pun tanpa dasar keputusan pengadilan",
+          "Hak milik tersebut tidak boleh diambil alih secara sewenang-wenang oleh siapa pun",
+          "Hak milik pribadi hanya diakui apabila pemiliknya menjabat sebagai pejabat publik",
+          "Pemerintah dapat menghapuskan hak milik tanah warga tanpa memberikan kompensasi"
+        ],
+        correct: 1,
+        explanation: "Pasal 28H ayat (4) berbunyi: 'Setiap orang berhak mempunyai hak milik pribadi dan hak milik tersebut tidak boleh diambil alih secara sewenang-wenang oleh siapa pun.'"
+      },
+      {
+        id: 14,
+        type: "single",
+        category: "Pendidikan Nasional (Pasal 31)",
+        question: "Ketentuan Pasal 31 ayat (1) dan ayat (2) menggariskan relasi timbal balik antara warga negara dan pemerintah dalam bidang pendidikan dasar, yakni...",
+        options: [
+          "Pendidikan dasar merupakan hak eksklusif anak dari keluarga mampu secara finansial",
+          "Warga negara wajib mengikuti pendidikan dasar dan pemerintah wajib membiayainya",
+          "Pemerintah hanya menyediakan kurikulum tanpa berkewajiban mendanai operasional sekolah",
+          "Warga negara bebas menolak sekolah dasar karena bukan merupakan kewajiban konstitusional"
+        ],
+        correct: 1,
+        explanation: "Pasal 31 ayat (1) menegaskan hak mendapat pendidikan, sedangkan ayat (2) menegaskan warga negara wajib mengikuti pendidikan dasar dan pemerintah wajib membiayainya."
+      },
+      {
+        id: 15,
+        type: "single",
+        category: "Kedaulatan Ekonomi Nasional (Pasal 33)",
+        question: "Mengapa Pasal 33 ayat (2) dan (3) UUD NRI Tahun 1945 mengamanatkan bahwa cabang produksi penting dan kekayaan alam dikuasai oleh negara?",
+        options: [
+          "Agar seluruh keuntungan dikuasai oleh pejabat negara untuk kepentingan pribadi",
+          "Untuk dipergunakan sebesar-besarnya demi kemakmuran dan kesejahteraan seluruh rakyat",
+          "Agar pihak swasta asing tidak diizinkan membuka kegiatan usaha sama sekali di Indonesia",
+          "Untuk membatasi konsumsi barang kebutuhan pokok di kalangan masyarakat miskin"
+        ],
+        correct: 1,
+        explanation: "Pasal 33 ayat (3) secara jelas menyatakan bumi, air, dan kekayaan alam yang terkandung di dalamnya dikuasai oleh negara dan dipergunakan untuk sebesar-besar kemakmuran rakyat."
+      },
+      {
+        id: 16,
+        type: "single",
+        category: "Jaminan Kesejahteraan Sosial (Pasal 34)",
+        question: "Penyediaan fasilitas BPJS Kesehatan, Program Keluarga Harapan (PKH), dan panti sosial bagi lansia terlantar merupakan bentuk pemenuhan kewajiban konstitusi negara dalam...",
+        options: [
+          "Pasal 34 ayat (1), (2), dan (3): Pemeliharaan fakir miskin, pengembangan sistem jaminan sosial, serta penyediaan fasilitas kesehatan dan pelayanan umum yang layak",
+          "Pasal 27 ayat (3): Penyelenggaraan latihan kemiliteran sukarela",
+          "Pasal 28F: Pembangunan menara telekomunikasi digital komersial",
+          "Pasal 32 ayat (2): Pembakuan dialek bahasa daerah"
+        ],
+        correct: 0,
+        explanation: "Pasal 34 ayat (1), (2), dan (3) mengamanatkan negara memelihara fakir miskin dan anak terlantar, mengembangkan sistem jaminan sosial, serta bertanggung jawab atas fasilitas pelayanan kesehatan dan umum yang layak."
+      },
+      {
+        id: 17,
+        type: "single",
+        category: "Kepatuhan Hukum (Pasal 27 ayat 1)",
+        question: "Prinsip 'Equality before the law' tercermin kuat dalam Pasal 27 ayat (1) UUD NRI Tahun 1945 yang berbunyi bahwa segala warga negara wajib menjunjung hukum dan pemerintahan dengan...",
+        options: [
+          "Memberikan kelonggaran hukuman bagi tokoh berpengaruh dan kaya",
+          "Tidak ada kecualinya",
+          "Menyesuaikan dengan rekomendasi organisasi kemasyarakatan setempat",
+          "Membedakan prosedur hukum berdasarkan jenis profesi seseorang"
+        ],
+        correct: 1,
+        explanation: "Pasal 27 ayat (1) menegaskan bahwa segala warga negara bersamaan kedudukannya di dalam hukum dan pemerintahan dan wajib menjunjung hukum dan pemerintahan itu dengan 'tidak ada kecualinya'."
+      },
+      {
+        id: 18,
+        type: "single",
+        category: "Kewajiban Bela Negara (Pasal 27 ayat 3)",
+        question: "Seorang pelajar kelas 9 menjaga nama baik bangsa dengan berprestasi dalam olimpiade sains internasional dan menolak provokasi tawuran antarsekolah. Sikap ini merupakan perwujudan konkret dari kewajiban...",
+        options: [
+          "Upaya pembelaan negara sebagaimana diatur dalam Pasal 27 ayat (3)",
+          "Menghindari pembayaran pajak daerah",
+          "Memperoleh suaka politik ke negara sahabat",
+          "Menolak mempelajari kebudayaan suku bangsa lain"
+        ],
+        correct: 0,
+        explanation: "Pasal 27 ayat (3) menyatakan setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara. Bagi pelajar, bela negara diwujudkan melalui prestasi, disiplin, dan persatuan bangsa."
+      },
+      {
+        id: 19,
+        type: "single",
+        category: "Pertahanan & Keamanan (Pasal 30 ayat 1)",
+        question: "Perbedaan substansial antara pembelaan negara pada Pasal 27 ayat (3) dan usaha pertahanan keamanan negara pada Pasal 30 ayat (1) terletak pada...",
+        options: [
+          "Pasal 27 ayat (3) hanya wajib bagi tentara, sedangkan Pasal 30 ayat (1) wajib bagi pejabat presiden",
+          "Pasal 27 ayat (3) berfokus pada sikap dan tekad moral pembelaan negara, sedangkan Pasal 30 ayat (1) mengatur keikutsertaan warga negara dalam sistem pertahanan dan keamanan negara (Sishankamrata)",
+          "Pasal 30 ayat (1) melarang warga sipil membantu tugas kepolisian dan TNI",
+          "Kedua pasal tersebut sama sekali tidak membebankan kewajiban kepada warga sipil"
+        ],
+        correct: 1,
+        explanation: "Pasal 27 ayat (3) mengatur hak dan kewajiban umum bela negara, sedangkan Pasal 30 ayat (1) secara teknis konstitusional mengatur hak dan kewajiban ikut serta dalam usaha pertahanan dan keamanan negara."
+      },
+      {
+        id: 20,
+        type: "single",
+        category: "Analisis Pelanggaran & Pengingkaran",
+        question: "Pengendara kendaraan bermotor yang sengaja menerobos lampu merah dan melawan arah di jalan raya tergolong ke dalam tindakan...",
+        options: [
+          "Pelanggaran hak cipta intelektual aparat kepolisian",
+          "Pengingkaran kewajiban warga negara untuk mematuhi peraturan hukum lalu lintas yang membahayakan hak hidup orang lain",
+          "Pemenuhan hak asasi untuk bergerak bebas di ruang publik",
+          "Tindakan diskriminatif aparat terhadap pengendara"
+        ],
+        correct: 1,
+        explanation: "Teks hal 49 Sub-bab D menjelaskan pengingkaran kewajiban terjadi saat seseorang telah diberikan kewajiban oleh hukum namun tidak menjalankannya sebagaimana mestinya, yang sekaligus membahayakan hak orang lain."
+      },
+      // Pilihan Ganda Kompleks (Q21 - Q28)
+      {
+        id: 21,
+        type: "multiple",
+        category: "Hak Asasi Non-Derogable (Pasal 28I ayat 1)",
+        question: "Pasal 28I ayat (1) UUD NRI Tahun 1945 merumuskan hak-hak asasi manusia yang bersifat mutlak dan tidak dapat dikurangi dalam keadaan apa pun (non-derogable rights). Manakah hak-hak yang termasuk di dalamnya? (Pilihlah SEMUA opsi yang benar)",
+        options: [
+          "Hak untuk hidup dan hak untuk tidak disiksa",
+          "Hak kemerdekaan pikiran dan hati nurani serta hak beragama",
+          "Hak untuk tidak diperbudak dan hak diakui sebagai pribadi di hadapan hukum",
+          "Hak untuk tidak dituntut atas dasar hukum yang berlaku surut",
+          "Hak mendirikan badan usaha monopoli perdagangan swasta"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Berdasarkan Pasal 28I ayat (1) hal 48, hak yang tidak dapat dikurangi dalam keadaan apa pun mencakup hak hidup, tidak disiksa, kemerdekaan pikiran/hati nurani, beragama, tidak diperbudak, diakui di depan hukum, dan tidak dituntut atas hukum yang berlaku surut."
+      },
+      {
+        id: 22,
+        type: "multiple",
+        category: "Analisis Yuridis Pasal 28E",
+        question: "Manakah pernyataan di bawah ini yang mencerminkan rincian jaminan kebebasan hak asasi manusia dalam Pasal 28E ayat (1), (2), dan (3)? (Pilihlah semua jawaban yang benar)",
+        options: [
+          "Setiap orang bebas memeluk agama dan beribadat menurut agamanya",
+          "Setiap orang bebas memilih pendidikan dan pengajaran, memilih pekerjaan, serta memilih kewarganegaraan",
+          "Setiap orang berhak atas kebebasan meyakini kepercayaan, menyatakan pikiran dan sikap sesuai dengan hati nuraninya",
+          "Setiap orang berhak atas kebebasan berserikat, berkumpul, dan mengeluarkan pendapat",
+          "Setiap orang bebas menyebarkan kabar bohong (hoaks) yang memicu permusuhan suku dan agama"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Pasal 28E ayat (1), (2), dan (3) menjamin kebebasan beragama, memilih pendidikan/pekerjaan/kewarganegaraan, memilih tempat tinggal, menyatakan pikiran nurani, serta berserikat dan mengeluarkan pendapat."
+      },
+      {
+        id: 23,
+        type: "multiple",
+        category: "Prinsip Demokrasi Ekonomi (Pasal 33)",
+        question: "Berdasarkan teks Buku Ajar halaman 48 mengenai Pasal 33 ayat (1) sampai (4), apa saja prinsip fundamental sistem perekonomian nasional Indonesia? (Pilihlah opsi yang benar)",
+        options: [
+          "Perekonomian disusun sebagai usaha bersama berdasar atas asas kekeluargaan",
+          "Cabang-cabang produksi yang penting bagi negara dan menguasai hajat hidup orang banyak dikuasai oleh negara",
+          "Bumi, air, dan kekayaan alam yang terkandung di dalamnya dipergunakan untuk sebesar-besar kemakmuran rakyat",
+          "Perekonomian nasional diselenggarakan berdasar atas demokrasi ekonomi dengan prinsip kebersamaan, efisiensi berkeadilan, dan berwawasan lingkungan",
+          "Perekonomian diserahkan pada mekanisme pasar bebas tanpa kendali dan pengawasan konstitusional"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Pasal 33 ayat (1)-(4) UUD NRI 1945 menggariskan asas kekeluargaan, penguasaan cabang produksi penting & SDA oleh negara demi kemakmuran rakyat, serta demokrasi ekonomi berkeadilan dan berwawasan lingkungan."
+      },
+      {
+        id: 24,
+        type: "multiple",
+        category: "Pemenuhan Hak Kesejahteraan Sosial (Pasal 34)",
+        question: "Negara memiliki tanggung jawab konstitusional terhadap kesejahteraan sosial warga negaranya (Pasal 34 ayat 1–3). Tanggung jawab tersebut diwujudkan dalam bentuk: (Pilihlah opsi yang sesuai)",
+        options: [
+          "Pemeliharaan oleh negara terhadap fakir miskin dan anak-anak yang terlantar",
+          "Pengembangan sistem jaminan sosial bagi seluruh rakyat secara bertahap dan terukur",
+          "Pemberdayaan masyarakat yang lemah dan tidak mampu sesuai dengan martabat kemanusiaan",
+          "Tanggung jawab negara atas penyediaan fasilitas pelayanan kesehatan dan fasilitas pelayanan umum yang layak",
+          "Pemberian dispensasi hukum bagi warga yang mampu membayar kompensasi tunai"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Pasal 34 ayat (1), (2), dan (3) secara eksplisit menjamin pemeliharaan fakir miskin & anak terlantar, sistem jaminan sosial, pemberdayaan masyarakat lemah, serta penyediaan fasilitas pelayanan kesehatan dan umum yang layak."
+      },
+      {
+        id: 25,
+        type: "multiple",
+        category: "Legitimasi Pembatasan Hak (Pasal 28J ayat 2)",
+        question: "Konstitusi menegaskan bahwa pelaksanaan hak asasi tidak boleh bersifat anarkis. Berdasarkan Pasal 28J ayat (2), setiap orang wajib tunduk kepada pembatasan undang-undang dengan tujuan untuk: (Pilihlah jawaban yang benar)",
+        options: [
+          "Menjamin pengakuan serta penghormatan atas hak dan kebebasan orang lain",
+          "Memenuhi tuntutan yang adil sesuai pertimbangan moral",
+          "Memenuhi tuntutan yang adil sesuai nilai-nilai agama",
+          "Menjaga keamanan dan ketertiban umum dalam suatu masyarakat demokratis",
+          "Membungkam seluruh kritik warga terhadap pelaksanaan program pembangunan"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Pasal 28J ayat (2) hal 49 menyatakan pembatasan undang-undang semata-mata ditetapkan guna menjamin penghormatan hak orang lain, pertimbangan moral, nilai agama, keamanan, dan ketertiban umum dalam masyarakat demokratis."
+      },
+      {
+        id: 26,
+        type: "multiple",
+        category: "Analisis Ketahanan Budaya (Pasal 32)",
+        question: "Dalam era globalisasi, Pasal 32 ayat (1) dan (2) UUD NRI Tahun 1945 memiliki signifikansi strategis bagi generasi muda, yaitu mewajibkan negara dan warga negara untuk: (Pilihlah semua opsi yang benar)",
+        options: [
+          "Memajukan kebudayaan nasional Indonesia di tengah peradaban dunia",
+          "Menjamin kebebasan masyarakat dalam memelihara dan mengembangkan nilai-nilai budayanya",
+          "Menghormati dan memelihara bahasa daerah sebagai kekayaan budaya nasional",
+          "Mengganti seluruh bahasa daerah dengan satu bahasa pergaulan seragam",
+          "Memperkuat jati diri dan kepribadian bangsa melalui pelestarian kearifan lokal nusantara"
+        ],
+        correct: [0, 1, 2, 4],
+        explanation: "Pasal 32 ayat (1) dan (2) mewajibkan pemajuan budaya nasional, kebebasan masyarakat mengembangkan budayanya, serta penghormatan dan pemeliharaan bahasa daerah sebagai kekayaan budaya nasional."
+      },
+      {
+        id: 27,
+        type: "multiple",
+        category: "Kewajiban Pokok Warga Negara",
+        question: "Di bawah ini yang merupakan kewajiban konstitusional warga negara yang diatur secara tegas dalam Bab X dan Bab XII UUD NRI 1945 adalah: (Pilihlah semua jawaban yang benar)",
+        options: [
+          "Kewajiban menjunjung hukum dan pemerintahan tanpa ada kecualinya (Pasal 27 ayat 1)",
+          "Kewajiban ikut serta dalam upaya pembelaan negara (Pasal 27 ayat 3)",
+          "Kewajiban menghormati hak asasi orang lain dalam tertib hidup bermasyarakat (Pasal 28J ayat 1)",
+          "Kewajiban ikut serta dalam usaha pertahanan dan keamanan negara (Pasal 30 ayat 1)",
+          "Kewajiban mengikuti pendidikan dasar (Pasal 31 ayat 2)"
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explanation: "Kelima butir tersebut adalah kewajiban yuridis pokok warga negara dalam UUD NRI 1945 sebagaimana dicantumkan pada materi halaman 48-49."
+      },
+      {
+        id: 28,
+        type: "multiple",
+        category: "Analisis Penyebab Tantangan & Pengingkaran",
+        question: "Berdasarkan materi bagian D 'Tantangan Pemenuhan Hak dan Kewajiban Warga Negara', manakah analisis yang BENAR mengenai problematika pemenuhan hak dan kewajiban? (Pilihlah semua opsi yang benar)",
+        options: [
+          "Tantangan pemenuhan hak dan kewajiban bersumber dari faktor internal (misal: sikap egois, rendahnya kesadaran berbangsa) maupun eksternal (misal: lemahnya penegakan regulasi)",
+          "Pelanggaran hak warga negara terjadi saat tindakan individu, kelompok, atau aparat mengurangi atau mencabut hak asasi yang dijamin undang-undang",
+          "Pengingkaran kewajiban terjadi manakala kewajiban telah ditetapkan hukum, tetapi orang tersebut lalai atau menolak melaksanakannya",
+          "Keseimbangan antara hak dan kewajiban merupakan kunci terciptanya ketertiban dan kemajuan bangsa",
+          "Hak warga negara dapat terus dinikmati secara abadi meskipun tidak ada seorang pun yang melaksanakan kewajibannya"
+        ],
+        correct: [0, 1, 2, 3],
+        explanation: "Materi Sub-bab D halaman 49 memaparkan faktor internal/eksternal tantangan hak dan kewajiban, definisi pelanggaran hak dan pengingkaran kewajiban, serta urgensi keseimbangan keduanya bagi keberlangsungan negara."
+      },
+      // Soal Esai Penalaran Analitis Kelas 9 (Q29 - Q30)
+      {
+        id: 29,
+        type: "essay",
+        category: "Esai HOTS: Korelasi Yuridis HAM & Kewajiban Asasi",
+        question: "Telaahlah pengertian Hak Asasi Manusia menurut Pasal 1 UU No. 39 Tahun 1999 sebagaimana tercantum pada teks materi! Mengapa dalam kehidupan berbangsa dan bernegara yang demokratis, penuntutan hak asasi oleh warga negara harus senantiasa diimbangi dengan pelaksanaan kewajiban asasi dan pembatasan undang-undang (Pasal 28J ayat 2)?",
+        placeholder: "Kemukakan analisis analitis Anda berdasarkan UU No. 39 Tahun 1999 dan Pasal 28J ayat (2) minimal dalam 3-4 kalimat berbobot...",
+        minChars: 30,
+        explanation: "Pedoman Kunci Jawaban: (1) Menurut Pasal 1 UU No. 39 Tahun 1999, HAM adalah seperangkat hak yang melekat pada hakikat keberadaan manusia sebagai makhluk Tuhan YME dan anugerah-Nya yang wajib dihormati, dijunjung tinggi, dan dilindungi oleh negara, hukum, pemerintah, dan setiap orang. (2) Penuntutan hak wajib diimbangi dengan kewajiban asasi karena tanpa kewajiban asasi, hak asasi mustahil terwujud dan terlaksana. (3) Berdasarkan Pasal 28J ayat (2), pembatasan oleh undang-undang diperlukan semata-mata untuk menjamin pengakuan serta penghormatan atas hak dan kebebasan orang lain, memenuhi tuntutan moral, nilai agama, serta ketertiban umum dalam masyarakat demokratis agar tidak terjadi anarki atau kesewenang-wenangan."
+      },
+      {
+        id: 30,
+        type: "essay",
+        category: "Esai HOTS: Telaah Kritis Kasus Pelanggaran & Pengingkaran",
+        question: "Berdasarkan materi bagian D, jelaskan perbedaan esensial antara konsep 'pelanggaran hak warga negara' dan 'pengingkaran kewajiban warga negara'! Berikan masing-masing 1 (satu) contoh nyata dari lingkungan masyarakat atau sekolah yang relevan dengan kehidupan remaja saat ini!",
+        placeholder: "Tuliskan perbedaan definisi serta contoh konkret pelanggaran hak dan pengingkaran kewajiban di sini...",
+        minChars: 30,
+        explanation: "Pedoman Kunci Jawaban: (1) Pelanggaran hak warga negara adalah tindakan (individu, kelompok, atau aparat negara) yang secara sengaja atau tidak sengaja mengurangi, membatasi, menghalangi, atau mencabut hak asasi seseorang sehingga hak konstitusionalnya tidak terpenuhi dan keadilan sulit diraih (Contoh: perundungan/bullying yang merenggut hak rasa aman dan belajar, atau diskriminasi perlakuan). (2) Pengingkaran kewajiban warga negara adalah sikap abai atau penolakan menjalankan kewajiban hukum yang telah digariskan oleh negara/peraturan perundang-undangan (Contoh: tidak mau mematuhi peraturan tata tertib sekolah, berkendara tanpa SIM/helm di jalan raya, atau merusak fasilitas umum)."
+      }
+    ];
+
+    // State stores
+    let studentAnswers = {};
+    let timerSeconds = 60 * 60; // 60 minutes
+    let timerInterval = null;
+
+    // URL Google Apps Script Web App yang telah dideploy
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzE2uyOrkvWjdVz1depxo6OfJUDSPotoy8be0xBnKRF_alH73rtBqoo5kD7IK4nm1Jl/exec";
+
+    // Web Audio Synthesizer for modern click feedback (No external sound dependencies)
+    const audioCtx = (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') 
+      ? new (window.AudioContext || window.webkitAudioContext)() 
+      : null;
+
+    function playTone(freq, type = 'sine', duration = 0.08) {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // Safe silent fallback
+      }
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      questionsData.forEach((q, index) => {
+        const qCard = document.createElement('div');
+        qCard.id = `card-q-${q.id}`;
+        qCard.className = "bg-white rounded-2xl p-5 sm:p-6 custom-shadow border border-slate-200/80 transition-all duration-200";
+
+        // Badges: Type & Category
+        let typeBadge = '';
+        if (q.type === 'single') {
+          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px]">Pilihan Ganda</span>';
+        } else if (q.type === 'multiple') {
+          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-bold text-[11px]">Pilihan Ganda Kompleks</span>';
+        } else {
+          typeBadge = '<span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-bold text-[11px]">Pertanyaan Esai</span>';
+        }
+
+        let headerHtml = `
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs mb-3 font-semibold">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-slate-900 text-white font-black text-xs flex items-center justify-center">${index + 1}</span>
+              ${typeBadge}
+            </div>
+            <span class="px-2.5 py-1 rounded-md bg-red-50 text-red-700 font-bold text-[11px]">${q.category}</span>
+          </div>
+          <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed mb-4">
+            ${q.question} <span class="text-red-500 font-bold">*</span>
+          </p>
+        `;
+
+        let bodyHtml = '';
+
+        if (q.type === 'single') {
+          bodyHtml = `
+            <div class="space-y-2.5">
+              ${q.options.map((opt, optIdx) => `
+                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 cursor-pointer transition select-none group">
+                  <input type="radio" name="q_${q.id}" value="${optIdx}" onchange="handleSelectAnswer(${q.id}, ${optIdx})"
+                    class="mt-0.5 w-4 h-4 text-red-600 focus:ring-red-500 border-slate-300">
+                  <span class="text-xs sm:text-sm text-slate-700 group-hover:text-slate-900 leading-snug">
+                    <span class="font-bold text-slate-400 mr-1.5">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+                  </span>
+                </label>
+              `).join('')}
+            </div>
+          `;
+        } else if (q.type === 'multiple') {
+          bodyHtml = `
+            <div class="space-y-2.5">
+              <p class="text-xs text-purple-700 font-medium italic mb-2">Petunjuk: Centang semua jawaban yang benar (dapat lebih dari satu jawaban).</p>
+              ${q.options.map((opt, optIdx) => `
+                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-purple-50/40 hover:border-purple-200 cursor-pointer transition select-none group">
+                  <input type="checkbox" name="q_${q.id}" value="${optIdx}" onchange="handleSelectCheckbox(${q.id}, ${optIdx})"
+                    class="mt-0.5 w-4 h-4 text-purple-600 rounded focus:ring-purple-500 border-slate-300">
+                  <span class="text-xs sm:text-sm text-slate-700 group-hover:text-slate-900 leading-snug">
+                    <span class="font-bold text-slate-400 mr-1.5">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+                  </span>
+                </label>
+              `).join('')}
+            </div>
+          `;
+        } else if (q.type === 'essay') {
+          bodyHtml = `
+            <div>
+              <textarea id="essay_${q.id}" oninput="handleEssayInput(${q.id}, this.value)" rows="4" placeholder="${q.placeholder}"
+                class="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition leading-relaxed"></textarea>
+              <div class="flex justify-between items-center text-[11px] text-slate-400 mt-1.5">
+                <span>Rujukan teks dari buku materi</span>
+                <span id="char-count-${q.id}">0 karakter</span>
+              </div>
+            </div>
+          `;
+        }
+
+        qCard.innerHTML = headerHtml + bodyHtml;
+        container.appendChild(qCard);
+      });
+
+      renderNavBubbles();
+      updateProgress();
+    }
+
+    function handleSelectAnswer(questionId, val) {
+      playTone(520, 'sine', 0.08);
+      studentAnswers[questionId] = parseInt(val);
+      highlightActiveCard(questionId);
+      updateProgress();
+      renderNavBubbles();
+    }
+
+    function handleSelectCheckbox(questionId, val) {
+      playTone(480, 'sine', 0.08);
+      if (!Array.isArray(studentAnswers[questionId])) {
+        studentAnswers[questionId] = [];
+      }
+      val = parseInt(val);
+      const idx = studentAnswers[questionId].indexOf(val);
+      if (idx > -1) {
+        studentAnswers[questionId].splice(idx, 1);
+      } else {
+        studentAnswers[questionId].push(val);
+      }
+      if (studentAnswers[questionId].length === 0) {
+        delete studentAnswers[questionId];
+      }
+      highlightActiveCard(questionId);
+      updateProgress();
+      renderNavBubbles();
+    }
+
+    function handleEssayInput(questionId, text) {
+      const charCounter = document.getElementById(`char-count-${questionId}`);
+      if (charCounter) charCounter.innerText = `${text.trim().length} karakter`;
+
+      if (text.trim().length >= 10) {
+        studentAnswers[questionId] = text.trim();
+      } else {
+        delete studentAnswers[questionId];
+      }
+      highlightActiveCard(questionId);
+      updateProgress();
+      renderNavBubbles();
+    }
+
+    function highlightActiveCard(questionId) {
+      const card = document.getElementById(`card-q-${questionId}`);
+      if (card) {
+        card.classList.add('border-l-4', 'border-red-500');
+      }
+    }
+
+    function updateProgress() {
+      const total = questionsData.length;
+      const answered = Object.keys(studentAnswers).length;
+      const pct = Math.round((answered / total) * 100);
+
+      const bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = `${pct}%`;
+
+      const badge = document.getElementById('answered-badge');
+      if (badge) badge.innerText = `${answered} / ${total} Terjawab (${pct}%)`;
+    }
+
+    function renderNavBubbles() {
+      const navContainer = document.getElementById('nav-bubbles-container');
+      if (!navContainer) return;
+      navContainer.innerHTML = '';
+
+      questionsData.forEach((q, idx) => {
+        const isAnswered = studentAnswers[q.id] !== undefined;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.innerText = idx + 1;
+        btn.className = `h-10 rounded-xl font-bold text-xs flex items-center justify-center transition ${
+          isAnswered 
+            ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-200' 
+            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+        }`;
+        btn.onclick = () => {
+          scrollToQuestion(q.id);
+          toggleQuickNavModal();
+        };
+        navContainer.appendChild(btn);
+      });
+    }
+
+    function scrollToQuestion(qid) {
+      const el = document.getElementById(`card-q-${qid}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function toggleQuickNavModal() {
+      const modal = document.getElementById('quick-nav-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('custom-toast');
+      toast.innerText = message;
+      toast.className = `fixed bottom-6 right-6 z-50 transform transition-all duration-300 flex items-center gap-3 px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white ${
+        isError ? 'bg-red-600 shadow-red-200' : 'bg-slate-900 shadow-slate-300'
+      }`;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    function showConfirmModal(title, desc, onConfirm) {
+      const modal = document.getElementById('confirm-modal');
+      const titleEl = document.getElementById('confirm-title');
+      const descEl = document.getElementById('confirm-desc');
+      const cancelBtn = document.getElementById('confirm-cancel-btn');
+      const acceptBtn = document.getElementById('confirm-accept-btn');
+
+      titleEl.innerText = title;
+      descEl.innerText = desc;
+      modal.classList.remove('hidden');
+
+      cancelBtn.onclick = () => {
+        modal.classList.add('hidden');
+      };
+
+      acceptBtn.onclick = () => {
+        modal.classList.add('hidden');
+        onConfirm();
+      };
+    }
+
+    function resetFormConfirmation() {
+      showConfirmModal(
+        "Reset Semua Jawaban?",
+        "Seluruh jawaban soal nomor 1 sampai 30 serta biodata akan dihapus dan dikembalikan ke awal.",
+        () => {
+          studentAnswers = {};
+          document.getElementById('student_name').value = '';
+          document.getElementById('student_nisn').value = '';
+          document.getElementById('student_class').value = '';
+          document.getElementById('student_absent').value = '';
+          renderQuestions();
+          showToast("Formulir telah direset bersih.");
+        }
+      );
+    }
+
+    function submitAssessment() {
+      const name = document.getElementById('student_name').value.trim();
+      const nisn = document.getElementById('student_nisn').value.trim();
+      const sClass = document.getElementById('student_class').value;
+      const absent = document.getElementById('student_absent').value.trim();
+
+      // Form validation
+      if (!name || !nisn || !sClass || !absent) {
+        showToast("Mohon lengkapi identitas diri siswa terlebih dahulu!", true);
+        document.getElementById('section-identity').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      const totalQuestions = questionsData.length;
+      const answeredCount = Object.keys(studentAnswers).length;
+
+      if (answeredCount < totalQuestions) {
+        showConfirmModal(
+          "Masih Ada Soal Kosong",
+          `Anda baru menyelesaikan ${answeredCount} dari ${totalQuestions} soal. Yakin ingin mengirimkan asesmen sekarang?`,
+          () => processEvaluation(name, sClass, nisn, absent)
+        );
+      } else {
+        showConfirmModal(
+          "Kirim Jawaban Asesmen",
+          "Jawaban akan diperiksa dan nilai Anda akan langsung dihitung. Pastikan semua telah diperiksa.",
+          () => processEvaluation(name, sClass, nisn, absent)
+        );
+      }
+    }
+
+    function processEvaluation(name, sClass, nisn, absent) {
+      let correctCount = 0;
+      let reviewHtml = '';
+
+      questionsData.forEach((q, idx) => {
+        const studentAns = studentAnswers[q.id];
+        let isCorrect = false;
+
+        if (q.type === 'single') {
+          isCorrect = (studentAns === q.correct);
+          if (isCorrect) correctCount++;
+
+          reviewHtml += `
+            <div class="p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
+              <div class="flex items-center justify-between font-bold mb-1">
+                <span>Soal ${idx + 1} (${q.category})</span>
+                <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isCorrect ? '✓ Benar' : '✗ Belum Tepat'}</span>
+              </div>
+              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
+              <div class="space-y-1 text-xs">
+                <p><span class="font-bold">Jawaban Anda:</span> ${studentAns !== undefined ? String.fromCharCode(65 + studentAns) + '. ' + q.options[studentAns] : '<i class="text-rose-500">Tidak Dijawab</i>'}</p>
+                <p><span class="font-bold text-emerald-800">Kunci Jawaban Buku:</span> ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar Materi:</span> ${q.explanation}</p>
+              </div>
+            </div>
+          `;
+        } else if (q.type === 'multiple') {
+          const userArr = Array.isArray(studentAns) ? [...studentAns].sort() : [];
+          const correctArr = [...q.correct].sort();
+          isCorrect = JSON.stringify(userArr) === JSON.stringify(correctArr);
+          if (isCorrect) correctCount++;
+
+          const userAnsText = userArr.length > 0 
+            ? userArr.map(i => String.fromCharCode(65 + i)).join(', ')
+            : 'Tidak Dijawab';
+          const correctAnsText = correctArr.map(i => String.fromCharCode(65 + i)).join(', ');
+
+          reviewHtml += `
+            <div class="p-4 rounded-xl border text-xs sm:text-sm ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}">
+              <div class="flex items-center justify-between font-bold mb-1">
+                <span>Soal ${idx + 1} (Pilihan Ganda Kompleks: ${q.category})</span>
+                <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${isCorrect ? '✓ Benar Semua' : '✗ Kurang Tepat'}</span>
+              </div>
+              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
+              <div class="space-y-1 text-xs">
+                <p><span class="font-bold">Pilihan Anda:</span> ${userAnsText}</p>
+                <p><span class="font-bold text-emerald-800">Kunci Opsi Benar:</span> ${correctAnsText}</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Dasar Materi:</span> ${q.explanation}</p>
+              </div>
+            </div>
+          `;
+        } else if (q.type === 'essay') {
+          isCorrect = (typeof studentAns === 'string' && studentAns.trim().length >= 20);
+          if (isCorrect) correctCount++;
+
+          reviewHtml += `
+            <div class="p-4 rounded-xl border text-xs sm:text-sm border-blue-200 bg-blue-50/40">
+              <div class="flex items-center justify-between font-bold mb-1">
+                <span>Soal ${idx + 1} (Esai Pemahaman: ${q.category})</span>
+                <span class="text-blue-700">✓ Telah Diberikan Poin Telaah</span>
+              </div>
+              <p class="text-slate-800 font-medium mb-2">${q.question}</p>
+              <div class="space-y-1 text-xs">
+                <p class="text-slate-700"><span class="font-bold">Jawaban Anda:</span> "${studentAns || 'Belum diisi'}"</p>
+                <p class="text-slate-600 mt-1 italic font-medium"><span class="not-italic font-bold">Kunci/Pedoman Jawaban:</span> ${q.explanation}</p>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      const finalScore = Math.round((correctCount / questionsData.length) * 100);
+      let grade = "Perlu Bimbingan";
+      if (finalScore >= 90) grade = "Sangat Baik (A)";
+      else if (finalScore >= 75) grade = "Baik / Tuntas (B)";
+      else if (finalScore >= 60) grade = "Cukup (C)";
+
+      // Format sisa waktu pengerjaan
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      const remainingTimeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+      // Mapping jawaban huruf untuk dikirim ke Spreadsheet
+      const mappedAnswers = {};
+      questionsData.forEach(q => {
+        const ans = studentAnswers[q.id];
+        if (q.type === 'single') {
+          mappedAnswers[q.id] = ans !== undefined ? String.fromCharCode(65 + ans) : "-";
+        } else if (q.type === 'multiple') {
+          mappedAnswers[q.id] = Array.isArray(ans) && ans.length > 0 
+            ? ans.map(i => String.fromCharCode(65 + i)).sort() 
+            : ["-"];
+        } else {
+          mappedAnswers[q.id] = ans || "-";
+        }
+      });
+
+      playTone(587.33, 'triangle', 0.2);
+      setTimeout(() => playTone(880, 'triangle', 0.4), 160);
+
+      document.getElementById('res-student-info').innerText = `${name} • ${sClass} • No. Absen ${absent} • NISN: ${nisn}`;
+      document.getElementById('res-score').innerText = finalScore;
+      document.getElementById('res-correct').innerText = `${correctCount}/${questionsData.length}`;
+      document.getElementById('res-grade').innerText = grade;
+      document.getElementById('review-list').innerHTML = reviewHtml;
+
+      document.getElementById('result-modal').classList.remove('hidden');
+
+      // Kirim hasil nilai & jawaban ke Google Spreadsheet
+      sendDataToGoogleSheet({
+        studentName: name,
+        studentNisn: nisn,
+        studentClass: sClass,
+        studentAbsent: absent,
+        finalScore: finalScore,
+        correctCount: correctCount,
+        grade: grade,
+        remainingTime: remainingTimeStr,
+        answers: mappedAnswers
+      });
+    }
+
+    async function sendDataToGoogleSheet(payload) {
+      const syncStatus = document.getElementById('sync-status');
+      if (!syncStatus) return;
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("CONTOH_DEPLOYMENT_ID")) {
+        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-amber-500/30 text-[11px] font-semibold tracking-wide text-amber-100";
+        syncStatus.innerHTML = `⚠️ Belum memasang URL Apps Script (Nilai tersimpan lokal di peramban)`;
+        return;
+      }
+
+      syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-white/20 text-[11px] font-semibold tracking-wide";
+      syncStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Mengirim data ke Google Spreadsheet...`;
+
+      try {
+        // Menggunakan mode 'no-cors' dan 'text/plain' agar kompatibel dengan GitHub Pages & Google Apps Script
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-emerald-500/30 text-[11px] font-semibold tracking-wide text-emerald-100";
+        syncStatus.innerHTML = `✓ Berhasil tersimpan di Google Spreadsheet`;
+      } catch (err) {
+        console.error("Gagal sinkronisasi:", err);
+        syncStatus.className = "inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full bg-rose-500/30 text-[11px] font-semibold tracking-wide text-rose-100";
+        syncStatus.innerHTML = `✗ Gagal mengirim ke Spreadsheet (Periksa koneksi)`;
+      }
+    }
+
+    function closeResultModal() {
+      document.getElementById('result-modal').classList.add('hidden');
+    }
+
+    function startTimer() {
+      const timerDisplay = document.getElementById('exam-timer');
+      timerInterval = setInterval(() => {
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          showToast("Waktu ujian telah berakhir!", true);
+          submitAssessment();
+          return;
+        }
+        timerSeconds--;
+        const mins = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions();
+      startTimer();
+    });
+  </script>
 </body>
 </html>
